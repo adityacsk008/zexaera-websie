@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - ZexaEra</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
+        .error-message {
+            display: none;
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md animate-fadeIn">
+        <!-- Login Card -->
+        <div class="bg-white rounded-lg shadow-xl p-8">
+            <!-- Logo -->
+            <div class="text-center mb-8">
+                <a href="#" class="text-3xl font-bold text-blue-600">Zexa<span class="text-blue-800">Era</span></a>
+                <p class="text-gray-600 mt-2">Admin Dashboard</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6" onsubmit="handleLogin(event)">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <div class="mt-1 relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                        </div>
+                        <input type="email" id="email" name="email" required 
+                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="admin@example.com">
+                    </div>
+                    <div id="emailError" class="error-message"></div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <div class="mt-1 relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <input type="password" id="password" name="password" required 
+                            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="••••••••">
+                    </div>
+                    <div id="passwordError" class="error-message"></div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" name="remember" 
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                    </div>
+                    <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Forgot password?</a>
+                </div>
+
+                <div class="flex space-x-4">
+                    <button type="submit" id="submitBtn"
+                        class="flex-1 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                        <span id="buttonText">Sign in</span>
+                        <svg id="loadingIcon" class="hidden animate-spin ml-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" id="signupBtn"
+                        class="flex-1 flex justify-center py-2 px-4 border border-blue-600 rounded-md shadow-sm text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                        <span>Sign up</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Back to Home -->
+            <div class="mt-6 text-center">
+                <a href="index.html" class="text-sm text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-arrow-left mr-1"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal (Hidden by default) -->
+    <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full animate-fadeIn">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-gray-800">Create Admin Account</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="signupForm" class="space-y-4">
+                <div>
+                    <label for="signupName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="signupName" required 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="John Doe">
+                </div>
+                <div>
+                    <label for="signupEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="signupEmail" required 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="admin@example.com">
+                </div>
+                <div>
+                    <label for="signupPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="signupPassword" required 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="••••••••">
+                </div>
+                <div>
+                    <label for="signupConfirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="••••••••">
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="signupTerms" required
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="signupTerms" class="ml-2 block text-sm text-gray-700">
+                        I agree to the <a href="#" class="text-blue-600 hover:text-blue-800">Terms of Service</a> and <a href="#" class="text-blue-600 hover:text-blue-800">Privacy Policy</a>
+                    </label>
+                </div>
+                <button type="submit" id="signupSubmitBtn"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            // Reset error messages
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+            
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            const buttonText = document.getElementById('buttonText');
+            const loadingIcon = document.getElementById('loadingIcon');
+            
+            submitBtn.disabled = true;
+            buttonText.textContent = 'Signing in...';
+            loadingIcon.classList.remove('hidden');
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember').checked;
+
+            // Hardcoded admin credentials (for demonstration purposes only)
+            const adminEmail = 'adityaenigma92@gmail.com';
+            const adminPassword = 'adityacsk007';
+
+            // Simulate network delay
+            setTimeout(() => {
+                // Check if it's the admin account
+                if (email === adminEmail && password === adminPassword) {
+                    // Save email in local storage if "Remember me" is checked
+                    if (rememberMe) {
+                        localStorage.setItem('adminEmail', email);
+                    } else {
+                        localStorage.removeItem('adminEmail');
+                    }
+                    
+                    // Redirect to Untitled 2 oig.html on successful login
+                    window.location.href = 'Untitled 2 oig.html';
+                } 
+                // Check if it's a registered user
+                else {
+                    // Get registered users from localStorage
+                    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                    
+                    // Find the user with matching email and password
+                    const user = registeredUsers.find(user => user.email === email && user.password === password);
+                    
+                    if (user) {
+                        // Save email in local storage if "Remember me" is checked
+                        if (rememberMe) {
+                            localStorage.setItem('adminEmail', email);
+                        } else {
+                            localStorage.removeItem('adminEmail');
+                        }
+                        
+                        // Redirect to Untitled 2 oig.html on successful login
+                        window.location.href = 'Untitled 2 oig.html';
+                    } else {
+                        // Show error message
+                        const errorDiv = document.getElementById('passwordError');
+                        errorDiv.textContent = 'Invalid email or password. Please try again.';
+                        errorDiv.style.display = 'block';
+                        
+                        // Reset button state
+                        submitBtn.disabled = false;
+                        buttonText.textContent = 'Sign in';
+                        loadingIcon.classList.add('hidden');
+                    }
+                }
+            }, 1000);
+        }
+
+        // Check if there's a saved email in local storage
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedEmail = localStorage.getItem('adminEmail');
+            if (savedEmail) {
+                document.getElementById('email').value = savedEmail;
+                document.getElementById('remember').checked = true;
+            }
+        });
+
+        // Signup functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupBtn = document.getElementById('signupBtn');
+            const signupModal = document.getElementById('signupModal');
+            const closeModal = document.getElementById('closeModal');
+            const signupForm = document.getElementById('signupForm');
+            
+            // Open signup modal
+            signupBtn.addEventListener('click', function() {
+                signupModal.classList.remove('hidden');
+            });
+            
+            // Close signup modal
+            closeModal.addEventListener('click', function() {
+                signupModal.classList.add('hidden');
+            });
+            
+            // Close modal when clicking outside
+            signupModal.addEventListener('click', function(e) {
+                if (e.target === signupModal) {
+                    signupModal.classList.add('hidden');
+                }
+            });
+            
+            // Handle signup form submission
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
+                
+                // Simple validation
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+                
+                // Check if email already exists
+                const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                const emailExists = registeredUsers.some(user => user.email === email);
+                
+                if (emailExists) {
+                    alert('An account with this email already exists. Please use a different email or try logging in.');
+                    return;
+                }
+                
+                // In a real application, you would send this data to a server
+                // For this demo, we'll store the user data in localStorage
+                const signupSubmitBtn = document.getElementById('signupSubmitBtn');
+                signupSubmitBtn.disabled = true;
+                signupSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Creating Account...';
+                
+                setTimeout(function() {
+                    // Add the new user to registered users
+                    registeredUsers.push({
+                        name: name,
+                        email: email,
+                        password: password
+                    });
+                    
+                    // Save updated users list to localStorage
+                    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+                    
+                    // Simulate successful signup
+                    alert('Account created successfully! You can now log in with your email and password.');
+                    signupModal.classList.add('hidden');
+                    
+                    // Reset form
+                    signupForm.reset();
+                    signupSubmitBtn.disabled = false;
+                    signupSubmitBtn.textContent = 'Create Account';
+                    
+                    // Pre-fill the login form with the new email
+                    document.getElementById('email').value = email;
+                }, 1500);
+            });
+        });
+
+        console.log(JSON.parse(localStorage.getItem('registeredUsers')));
+
+        // Remove all registered users
+        localStorage.removeItem('registeredUsers');
+    </script>
+</body>
+</html> 

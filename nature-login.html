@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nature Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80') no-repeat center center/cover;
+      font-family: 'Poppins', sans-serif;
+      color: #2d6a4f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login {
+      background-color: rgba(255,255,255,0.85);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px green;
+      width: 320px;
+      transition: all 0.3s ease;
+    }
+    .login:hover {
+      box-shadow: 0 0 20px rgba(45, 106, 79, 0.5);
+    }
+    input, button {
+      padding: 12px;
+      width: 100%;
+      margin: 10px 0;
+      border: 1px solid #2d6a4f;
+      border-radius: 5px;
+      font-family: 'Poppins', sans-serif;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+    input:focus {
+      outline: none;
+      border-color: #40916c;
+      box-shadow: 0 0 5px rgba(45, 106, 79, 0.3);
+    }
+    button {
+      background-color: #2d6a4f;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #40916c;
+      transform: translateY(-2px);
+    }
+    .error-message {
+      color: #e63946;
+      font-size: 12px;
+      margin-top: 5px;
+      display: none;
+    }
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .forgot-password {
+      color: #2d6a4f;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .forgot-password:hover {
+      color: #40916c;
+      text-decoration: underline;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .loading-spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #2d6a4f;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .success-message {
+      color: #2d6a4f;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login">
+    <h2>🍃 GreenZone Login</h2>
+    <form id="loginForm">
+      <input type="text" id="ecoId" placeholder="Eco ID" required>
+      <div id="ecoIdError" class="error-message">Please enter a valid Eco ID</div>
+      
+      <input type="password" id="leafPassword" placeholder="Leaf Password" required>
+      <div id="passwordError" class="error-message">Password must be at least 6 characters</div>
+      
+      <div class="remember-forgot">
+        <label class="remember-me">
+          <input type="checkbox" id="rememberMe">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot-password" id="forgotPassword">Forgot Password?</a>
+      </div>
+      
+      <button type="submit" id="loginButton">Login to Nature</button>
+    </form>
+    
+    <div id="loading" class="loading">
+      <div class="loading-spinner"></div>
+      <p>Logging in...</p>
+    </div>
+    
+    <div id="successMessage" class="success-message">
+      Login successful! Redirecting...
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginForm = document.getElementById('loginForm');
+      const ecoIdInput = document.getElementById('ecoId');
+      const leafPasswordInput = document.getElementById('leafPassword');
+      const ecoIdError = document.getElementById('ecoIdError');
+      const passwordError = document.getElementById('passwordError');
+      const loginButton = document.getElementById('loginButton');
+      const loading = document.getElementById('loading');
+      const successMessage = document.getElementById('successMessage');
+      const forgotPassword = document.getElementById('forgotPassword');
+      
+      // Admin credentials (in a real application, this would be stored securely on a server)
+      const adminCredentials = {
+        email: 'adityaenigma92@gmail.com',
+        password: 'adityacsk007'
+      };
+      
+      // Check if there's a saved Eco ID
+      const savedEcoId = localStorage.getItem('ecoId');
+      if (savedEcoId) {
+        ecoIdInput.value = savedEcoId;
+        document.getElementById('rememberMe').checked = true;
+      }
+      
+      // Form validation
+      function validateForm() {
+        let isValid = true;
+        
+        // Eco ID validation
+        if (ecoIdInput.value.trim() === '') {
+          ecoIdError.style.display = 'block';
+          isValid = false;
+        } else {
+          ecoIdError.style.display = 'none';
+        }
+        
+        // Password validation
+        if (leafPasswordInput.value.length < 6) {
+          passwordError.style.display = 'block';
+          isValid = false;
+        } else {
+          passwordError.style.display = 'none';
+        }
+        
+        return isValid;
+      }
+      
+      // Handle form submission
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!validateForm()) {
+          return;
+        }
+        
+        // Show loading spinner
+        loginButton.disabled = true;
+        loading.style.display = 'block';
+        
+        // Check credentials
+        const email = ecoIdInput.value;
+        const password = leafPasswordInput.value;
+        
+        // Simulate login process
+        setTimeout(function() {
+          if (email === adminCredentials.email && password === adminCredentials.password) {
+            // Save Eco ID if "Remember me" is checked
+            if (document.getElementById('rememberMe').checked) {
+              localStorage.setItem('ecoId', email);
+            } else {
+              localStorage.removeItem('ecoId');
+            }
+            
+            // Set authentication flag
+            sessionStorage.setItem('isAuthenticated', 'true');
+            
+            // Hide loading spinner and show success message
+            loading.style.display = 'none';
+            successMessage.style.display = 'block';
+            
+            // Redirect to admin dashboard after successful login
+            setTimeout(function() {
+              window.location.href = 'admin-dashboard.html';
+            }, 1500);
+          } else {
+            // Show error message
+            passwordError.textContent = 'Invalid email or password';
+            passwordError.style.display = 'block';
+            
+            // Reset button state
+            loginButton.disabled = false;
+            loading.style.display = 'none';
+          }
+        }, 2000);
+      });
+      
+      // Handle forgot password
+      forgotPassword.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Password reset link has been sent to your email.');
+      });
+    });
+  </script>
+</body>
+</html> 

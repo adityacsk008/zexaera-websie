@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JavaScript Course</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      padding-inline-start: 'Poppins', sans-serif;
+      background: #00aaff;
+      color: #fff;
+      padding: 50px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(8px);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 38px;
+      font-weight: 600;
+      color: #f4f4f9;
+    }
+
+    header p {
+      font-size: 18px;
+      color: #d1e1d2;
+    }
+
+    .details, .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .details h2, .features h2 {
+      font-size: 28px;
+      color: #d1e1d2;
+      margin-bottom: 20px;
+    }
+
+    .details ul, .features ul {
+      list-style: none;
+    }
+
+    .details li, .features li {
+      font-size: 16px;
+      color: #f4f4f9;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    .details li strong, .features li strong {
+      font-weight: 600;
+      margin-right: 10px;
+      color: #d1e1d2;
+    }
+
+    .button {
+      display: block;
+      text-align: center;
+      background-color: #6abf69;
+      color: #fff;
+      padding: 15px 30px;
+      margin: 20px auto;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      width: 200px;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #5eaf5d;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 16px;
+      color: #d1e1d2;
+    }
+
+    footer a {
+      color: #6abf69;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .details, .features {
+        grid-template-columns: 1fr;
+      }
+
+      .button {
+        width: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>JavaScript Course</h1>
+      <p>Learn JavaScript from scratch and advance your skills in this comprehensive course!</p>
+    </header>
+
+    <div class="details">
+      <div>
+        <h2>Course Details</h2>
+        <ul>
+          <li><strong>Course Name:</strong> JavaScript Course</li>
+          <li><strong>Duration:</strong> 3 Months</li>
+          <li><strong>Mode:</strong> Online & Offline</li>
+          <li><strong>Language:</strong> Hindi</li>
+          <li><strong>Level:</strong> Beginner</li>
+          <li><strong>Classes:</strong> Video Recordings</li>
+          <li><strong>PDF Notes:</strong> Included</li>
+          <li><strong>Support:</strong> 10:00 AM – 12:00 PM</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2>Features & Benefits</h2>
+        <ul>
+          <li><strong>Live Q&A:</strong> Every Sunday 8:00 PM</li>
+          <li><strong>Access:</strong> Lifetime</li>
+          <li><strong>Price:</strong> ₹999</li>
+          <li><strong>7 Days Money-Back Guarantee:</strong> Yes</li>
+          <li><strong>Certificate:</strong> Yes</li>
+        </ul>
+      </div>
+    </div>
+
+    <a href="#" class="button">Enroll Now</a>
+
+    <footer>
+      <p>Need more information? <a href="#">Contact Us</a></p>
+    </footer>
+  </div>
+
+<!-- Stylish Close Button -->
+<button class="close-button" onclick="goBackToMain()">×</button>
+
+<style>
+  .close-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background-color: #06bdf5;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 48px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+  }
+
+  .close-button:hover {
+    background-color: #e60023;
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  }
+</style>
+
+
+</body>
+</html>

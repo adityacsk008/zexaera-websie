@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS3 & Modern Web Design Matrix Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background-color: #000;
+      color: #00ff00;
+      overflow-x: hidden;
+      padding: 40px 20px;
+    }
+
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ff00;
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 0 15px #00ff00;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #00ff00;
+      text-shadow: 0 0 10px #00ff00;
+      border-left: 4px solid #00ff00;
+      padding-left: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      background-color: rgba(0, 255, 0, 0.1);
+      border-left: 4px solid #00ff00;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .button {
+      display: inline-block;
+      background: #00ff00;
+      color: #000;
+      font-weight: bold;
+      padding: 12px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: 0.3s;
+      margin-top: 30px;
+    }
+
+    .button:hover {
+      background: #000;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="matrix-bg">
+    <canvas id="matrixCanvas"></canvas>
+  </div>
+
+  <div class="container">
+    <h2>About CSS3 & Modern Web Design</h2>
+    <p>
+      The CSS3 & Modern Web Design is a beginner-friendly training designed to introduce you to the world of CSS3 & Modern Web Design.
+      Learn CSS3 & Modern Web Design, HTML, CSS, and more — perfect for students, job seekers, and professionals alike.
+    </p>
+
+    <h2>Course Details</h2>
+    <ul>
+      <li><strong>Course Name:</strong> CSS3 & Modern Web Design</li>
+      <li><strong>Duration:</strong> 1 Months</li>
+      <li><strong>Mode:</strong> Online & Offline</li>
+      <li><strong>Language:</strong> Hindi</li>
+      <li><strong>Level:</strong> Beginner to Advanced</li>
+      <li><strong>Classes:</strong> Video Recordings</li>
+      <li><strong>PDF Notes:</strong> Included</li>
+      <li><strong>Live Q&A:</strong> Every Sunday 8:00 PM</li>
+      <li><strong>Support:</strong> 10:00 AM – 12:00 PM</li>
+      <li><strong>Access:</strong> Lifetime</li>
+      <li><strong>Price:</strong> ₹499</li>
+      <li><strong>7 Days Money Back Guarantee:</strong> Yes</li>
+      <li><strong>Certificate:</strong> Yes</li>
+    </ul>
+
+    <a href="#" class="button">Enroll Now</a>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%".split("");
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }, () => 1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0f0";
+      ctx.font = fontSize + "px Share Tech Mono";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = matrix[Math.floor(Math.random() * matrix.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 35);
+  </script>
+
+<!-- Stylish Close Button -->
+<button class="close-button" onclick="goBackToMain()">×</button>
+
+<style>
+  .close-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background-color: #24ff07;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 48px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+  }
+
+  .close-button:hover {
+    background-color: #e60023;
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  }
+</style>
+
+<script>
+  function goBackToMain() {
+    window.location.href = "Untitled 2 oig.html"; // Apne main page ka naam yaha likh
+  }
+</script>
+
+
+</body>
+</html>
