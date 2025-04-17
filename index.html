@@ -1,45 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZexaEra</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Course Online Store</title>
+    
+    <!-- ✅ Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RG9X8EHC3M"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RG9X8EHC3M');
+    </script>
 
-  <!-- ✅ Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RG9X8EHC3M"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-RG9X8EHC3M');
-  </script>
-
-  <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <style>
-    /* Animation Styles - lines 1-40 */
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    @keyframes slideInLeft {
-        from { transform: translateX(-100px); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideInRight {
-        from { transform: translateX(100px); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
-    .animate-slideInLeft { animation: slideInLeft 0.8s ease-out; }
-    .animate-slideInRight { animation: slideInRight 0.8s ease-out; }
-    .hover-scale { transition: transform 0.3s ease; }
-    .hover-scale:hover { transform: scale(1.05); }
-    .transition-all { transition: all 0.3s ease; }
-  </style>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Animation Styles - lines 1-40 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInLeft {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .animate-fadeIn { animation: fadeIn 1s ease-in-out; }
+        .animate-slideInLeft { animation: slideInLeft 0.8s ease-out; }
+        .animate-slideInRight { animation: slideInRight 0.8s ease-out; }
+        .hover-scale { transition: transform 0.3s ease; }
+        .hover-scale:hover { transform: scale(1.05); }
+        .transition-all { transition: all 0.3s ease; }
+    </style>
 </head>
+<body class="font-sans bg-gradient-to-br from-purple-100 via-blue-100 to-pink-100">
+
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 w-full bg-white shadow-lg z-0">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      
+      <!-- Logo + Brand Name -->
+      <div class="flex items-center space-x-3">
+        <img src="image.png" alt="ZexaEra Logo" class="w-10 h-10 object-contain">
+        <span class="text-3xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 text-transparent bg-clip-text">ZexaEra</span>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex space-x-6">
+        <a href="#home" class="text-gray-700 hover:text-purple-600 font-medium transition-all">Home</a>
+        <a href="#about" class="text-gray-700 hover:text-purple-600 font-medium transition-all">About</a>
+        <a href="#courses" class="text-gray-700 hover:text-purple-600 font-medium transition-all">Courses</a>
+        <a href="#contact" class="text-gray-700 hover:text-purple-600 font-medium transition-all">Contact</a>
+        <a href="admin-login.html" class="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-4 py-2 rounded-md font-semibold shadow-md">Sign In</a>
+        <button id="signupBtn" class="bg-white hover:bg-purple-50 text-purple-600 border border-purple-500 px-4 py-2 rounded-md font-semibold transition-all">Sign Up</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Padding top to avoid navbar overlap -->
+  <div class="pt-20 text-center">
+    <h1 class="text-8xl font-bold text-gray-800">Welcome to <span class="bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 text-transparent bg-clip-text">ZexaEra</span></h1>
+    <p class="mt-4 text-3xl bg-gradient-to-r from-sky-400 via-violet-500 to-rose-500 text-transparent bg-clip-text">
+        Learn. Grow. Earn. 🚀
+    </p>
+  </div>
+
+</body>
+</html>
 
 
             
