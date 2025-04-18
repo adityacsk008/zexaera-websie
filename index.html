@@ -31,6 +31,151 @@
 }
 </style>
 
+<body <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyber Portal Popup</title>
+
+  <!-- Google Font: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: radial-gradient(circle at center, #0f0f0f, #1a1a1a);
+      font-family: 'Poppins', sans-serif;
+      color: white;
+    }
+
+    .popup {
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, #00f5d4, #4b39ef);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      animation: pulse 2s infinite, outlineAnimation 4s infinite;
+      border: 2px solid #ffffff30;
+    }
+
+    .popup h1 {
+      font-size: 2.2em;
+      margin: 0;
+      color: #ffffff;
+      text-shadow: 0 0 10px #00fff7;
+      text-transform: uppercase;
+    }
+
+    .popup h2 {
+      font-size: 1.5em;
+      margin: 12px 0 0;
+      font-weight: 600;
+      color: #ffffffcc;
+    }
+
+    .popup p {
+      font-size: 1.6em;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .highlight {
+      color: #ffeb3b;
+      font-size: 1.8em;
+      text-shadow: 0 0 5px #fff176;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.8em;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .close-btn:hover {
+      transform: scale(1.2);
+      color: #ff4b4b;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(0, 255, 255, 0.5);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+      }
+    }
+
+    @keyframes outlineAnimation {
+      0% {
+        border-color: #ff6b6b;
+        box-shadow: 0 0 15px #ff6b6b;
+      }
+      25% {
+        border-color: #4ecdc4;
+        box-shadow: 0 0 15px #4ecdc4;
+      }
+      50% {
+        border-color: #ffeb3b;
+        box-shadow: 0 0 15px #ffeb3b;
+      }
+      75% {
+        border-color: #4b39ef;
+        box-shadow: 0 0 15px #4b39ef;
+      }
+      100% {
+        border-color: #ff6b6b;
+        box-shadow: 0 0 15px #ff6b6b;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="popup" id="popup">
+    <button class="close-btn" onclick="redirectToWebsite()">✖</button>
+    <h1>Coming Soon</h1>
+    <p><span class="highlight">100+ Courses</span> 🚀</p>
+    <h2>Within 10 Days</h2>
+  </div>
+
+  <script>
+    // Hide popup after 15 seconds
+    setTimeout(function () {
+      document.getElementById('popup').style.display = 'none';
+    }, 15000);
+
+    // Redirect on close
+    function redirectToWebsite() {
+      window.location.href = "https://zexaera-websie.vercel.app/";
+    }
+  </script>
+
+</body>
+</html>
   
 
     
