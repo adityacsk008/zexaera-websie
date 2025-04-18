@@ -66,8 +66,8 @@
 
   <!-- Padding top to avoid navbar overlap -->
   <div class="pt-20 text-center">
-    <h1 class="text-8xl font-bold text-gray-700">Welcome to <span class="bg-gradient-to-r from-purple-500 via-blue-500 to-pink-450 text-transparent bg-clip-text">ZexaEra</span></h1>
-    <p class="mt-4 text-3xl bg-gradient-to-r from-sky-350 via-violet-450 to-rose-450 text-transparent bg-clip-text">
+    <h1 class="text-8xl font-bold text-gray-800">Welcome to <span class="bg-gradient-to-r from-purple-600 via-blue-500 to-pink-500 text-transparent bg-clip-text">ZexaEra</span></h1>
+    <p class="mt-4 text-3xl bg-gradient-to-r from-sky-400 via-violet-450 to-rose-500 text-transparent bg-clip-text">
         Learn. Grow. Earn. 🚀
     </p>
   </div>
@@ -75,81 +75,124 @@
 </body>
 </html>
 
-<div class="super-search-container">
-  <input type="text" placeholder="Discover something amazing..." class="super-search-input">
-  <button class="super-search-button">🌿🔍→</button>
+<div class="extended-search-container">
+  <input type="text" placeholder="Discover amazing content across our entire universe..." class="extended-search-input">
+  <button class="extended-search-button">
+    <span class="search-icon">🔍</span>
+    <span class="arrow-icon">→</span>
+    <span class="nature-icon">🌿</span>
+  </button>
 </div>
 
 <style>
-.super-search-container {
+.extended-search-container {
   position: relative;
   display: flex;
-  max-width: 600px;
-  margin: 30px auto;
-  border-radius: 50px;
-  padding: 3px;
-  background: linear-gradient(45deg, #ff00cc, #3333ff, #00ccff, #66bb6a);
-  background-size: 300% 300%;
-  animation: gradientBG 5s ease infinite;
-  box-shadow: 0 0 20px rgba(255, 0, 204, 0.5);
-  border: 2px solid #81c784;
+  width: 800px; /* Increased width */
+  max-width: 90%;
+  margin: 40px auto;
+  border-radius: 60px;
+  padding: 4px;
+  background: linear-gradient(45deg, 
+    #ff00cc, 
+    #ff0066, 
+    #cc00ff, 
+    #6600ff, 
+    #00ccff, 
+    #00ffcc, 
+    #66bb6a);
+  background-size: 400% 400%;
+  animation: gradientMotion 8s ease infinite, pulseGlow 3s ease infinite alternate;
+  box-shadow: 
+    0 0 15px rgba(255, 0, 204, 0.7),
+    0 0 30px rgba(102, 187, 106, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  transition: all 0.5s;
 }
 
-.super-search-input {
+.extended-search-container:hover {
+  transform: scale(1.02);
+  box-shadow: 
+    0 0 25px rgba(255, 0, 204, 0.9),
+    0 0 40px rgba(102, 187, 106, 0.7);
+}
+
+.extended-search-input {
   flex: 1;
-  padding: 16px 25px;
+  padding: 18px 30px; /* Increased padding */
   border: none;
-  border-radius: 50px 0 0 50px;
-  font-size: 16px;
+  border-radius: 60px 0 0 60px;
+  font-size: 18px; /* Slightly larger font */
   background: rgba(255, 255, 255, 0.9);
-  color: #2e7d32;
+  color: #333;
   font-weight: 500;
-  transition: all 0.3s;
+  transition: all 0.4s;
+  backdrop-filter: blur(5px);
+  min-width: 600px; /* Minimum width for input */
 }
 
-.super-search-input:focus {
+.extended-search-input:focus {
   outline: none;
-  background: white;
+  background: rgba(255, 255, 255, 1);
   box-shadow: inset 0 0 10px rgba(102, 187, 106, 0.3);
 }
 
-.super-search-button {
+.extended-search-button {
   border: none;
-  padding: 0 30px;
+  padding: 0 40px; /* Wider button */
   background: linear-gradient(45deg, #ff00cc, #66bb6a);
   color: white;
-  border-radius: 0 50px 50px 0;
+  border-radius: 0 60px 60px 0;
   cursor: pointer;
-  font-size: 20px;
-  transition: all 0.4s;
+  font-size: 22px; /* Larger icons */
+  transition: all 0.5s;
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  gap: 15px; /* More space between icons */
+  position: relative;
+  overflow: hidden;
+  min-width: 150px; /* Minimum button width */
 }
 
-.super-search-button:hover {
+.extended-search-button:hover {
   background: linear-gradient(45deg, #66bb6a, #ff00cc);
-  transform: scale(1.02);
-  letter-spacing: 2px;
+  letter-spacing: 5px; /* More dramatic hover effect */
 }
 
-@keyframes gradientBG {
+/* Rest of the animations remain the same as previous version */
+@keyframes gradientMotion {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 15px rgba(255, 0, 204, 0.7), 0 0 30px rgba(102, 187, 106, 0.5); }
+  100% { box-shadow: 0 0 25px rgba(255, 0, 204, 0.9), 0 0 45px rgba(102, 187, 106, 0.7); }
+}
+
+@keyframes shine {
+  0% { transform: rotate(30deg) translate(-30%, -30%); }
+  100% { transform: rotate(30deg) translate(30%, 30%); }
+}
+
 /* Responsive adjustments */
-@media (max-width: 768px) {
-  .super-search-container {
-    max-width: 90%;
+@media (max-width: 900px) {
+  .extended-search-container {
+    width: 95%;
   }
-  .super-search-button {
-    padding: 0 20px;
+  .extended-search-input {
+    min-width: auto;
+    padding: 16px 20px;
+  }
+  .extended-search-button {
+    padding: 0 30px;
+    min-width: 120px;
   }
 }
 </style>
-
 
             
             <!-- Mobile Menu Button -->
