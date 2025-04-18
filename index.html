@@ -72,6 +72,35 @@
     </p>
   </div>
 
+@keyframes floatY {
+  0%, 100% { transform: translateY(0) rotateX(0.5deg) rotateY(0.5deg); }
+  50% { transform: translateY(-10px) rotateX(1deg) rotateY(1deg); }
+}
+
+.floating-animate {
+  animation: floatY 4s ease-in-out infinite;
+}
+
+@keyframes gradientBlur {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradientBlur {
+  background-size: 200% 200%;
+  animation: gradientBlur 10s ease infinite;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+
+    
 </body>
 </html>
 <div class="search-3d-container">
