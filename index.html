@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Course Online Store</title>
 
+<!-- Place this code just after <body> tag in your website -->
+
+<div id="cyberBanner" style="
+  width: 100%;
+  background: linear-gradient(135deg, #00f5d4, #4b39ef);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  padding: 15px 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  animation: bannerPulse 3s infinite;
+">
+  <strong style="font-size: 20px;">🚀 100+ Courses Coming in 10 Days – <a href="https://zexaera-websie.vercel.app/" style="color: #ffeb3b; text-decoration: underline;">Visit Now</a></strong>
+</div>
+
+<style>
+@keyframes bannerPulse {
+  0% { box-shadow: 0 0 10px #4b39ef; }
+  50% { box-shadow: 0 0 20px #ffeb3b; }
+  100% { box-shadow: 0 0 10px #4b39ef; }
+}
+</style>
 
   
 
@@ -44,73 +69,7 @@
         .transition-all { transition: all 0.3s ease; }
     </style>
 </head>
-
-    <!-- Poppins Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-
-<script>
-  // Wait till page loads fully
-  window.addEventListener('DOMContentLoaded', function () {
-    // Create popup container
-    const popup = document.createElement('div');
-    popup.innerHTML = `
-      <div id="zexaPopup" style="
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        height: 300px;
-        background: linear-gradient(135deg, #00f5d4, #4b39ef);
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
-        text-align: center;
-        padding: 20px;
-        font-family: 'Poppins', sans-serif;
-        z-index: 9999;
-        animation: popupPulse 2s infinite, outlineAnim 4s infinite;
-        color: white;
-        border: 2px solid #ffffff30;
-      ">
-        <button onclick="window.location.href='https://zexaera-websie.vercel.app/'" style="
-          position: absolute;
-          top: 10px;
-          right: 15px;
-          background: none;
-          border: none;
-          font-size: 1.8em;
-          color: white;
-          cursor: pointer;
-        ">✖</button>
-        <h1 style="font-size: 2.2em; text-shadow: 0 0 10px #00fff7; text-transform: uppercase;">Coming Soon</h1>
-        <p style="font-size: 1.6em; margin: 10px 0;"><span style="color: #ffeb3b; font-size: 1.8em; text-shadow: 0 0 5px #fff176;">100+ Courses</span> 🚀</p>
-        <h2 style="font-size: 1.5em; color: #ffffffcc;">Within 10 Days</h2>
-      </div>
-      <style>
-        @keyframes popupPulse {
-          0% { transform: translate(-50%, -50%) scale(1); }
-          50% { transform: translate(-50%, -50%) scale(1.05); }
-          100% { transform: translate(-50%, -50%) scale(1); }
-        }
-        @keyframes outlineAnim {
-          0% { box-shadow: 0 0 15px #ff6b6b; border-color: #ff6b6b; }
-          25% { box-shadow: 0 0 15px #4ecdc4; border-color: #4ecdc4; }
-          50% { box-shadow: 0 0 15px #ffeb3b; border-color: #ffeb3b; }
-          75% { box-shadow: 0 0 15px #4b39ef; border-color: #4b39ef; }
-          100% { box-shadow: 0 0 15px #ff6b6b; border-color: #ff6b6b; }
-        }
-      </style>
-    `;
-
-    document.body.appendChild(popup);
-
-    // Remove after 15 sec
-    setTimeout(() => {
-      const el = document.getElementById('zexaPopup');
-      if (el) el.remove();
-    }, 15000);
-  });
-</script>
+    
 
 <body class="font-sans bg-gradient-to-br from-purple-100 via-blue-100 to-pink-100">
 
