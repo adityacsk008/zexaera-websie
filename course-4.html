@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BPSC TRE 4.0 Book Product Page</title>
+  <style>
+    /* Gradient background animation */
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: white; /* Set background color to white */
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .product {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .product img {
+      width: 300px;
+      border-radius: 10px;
+    }
+
+    .details {
+      flex: 1;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .rating {
+      color: green;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .price {
+      font-size: 22px;
+      color: #388e3c;
+      margin-top: 10px;
+    }
+
+    .mrp {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .description {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .visit-site-wrapper {
+      text-align: center;
+      margin-top: 50px;
+      perspective: 1000px;
+    }
+
+    .visit-site-btn {
+      display: inline-block;
+      padding: 10px 24px; /* Further reduced padding */
+      font-size: 14px; /* Further reduced font size */
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(270deg, #ff00cc, #00c6ff, #66bb6a, #ff9900, #ff0066);
+      background-size: 1000% 1000%;
+      animation: colorFlow 10s ease infinite;
+      border-radius: 50px;
+      text-decoration: none;
+      transform: translateZ(15px);
+      transition: all 0.4s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25),
+                  inset 2px 2px 8px rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    .visit-site-btn:hover {
+      transform: translateZ(30px) rotateY(10deg);
+      letter-spacing: 2px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35),
+                  inset 3px 3px 10px rgba(255, 255, 255, 0.4);
+    }
+
+    @keyframes colorFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="product">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 Book Image">
+
+      <div class="details">
+        <div class="title">
+          BPSC TRE 4.0 | Bihar Shikshak Bharti Pariksha | Samanya Adhyayan | Danish Sir | Hindi Edition
+        </div>
+        <div class="rating">⭐ 4.8 | 1,124 Ratings & 386 Reviews</div>
+        <div class="price">₹299 <span class="mrp">₹349</span> <span style="color: green;">14% off</span></div>
+
+        <div class="description">
+          This book is specially designed for the Bihar Shikshak Bharti Pariksha (BPSC TRE 4.0). It includes over 1200+ questions based on the latest exam pattern and covers important NCERT & SCERT-based General Studies topics. Ideal for both Hindi and English medium aspirants.
+        </div>
+
+        <div class="buttons">
+          <a href="#" class="visit-site-btn">🛒 ADD TO CART</a>
+          <a href="#" class="visit-site-btn">🛍 BUY NOW</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
