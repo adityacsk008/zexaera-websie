@@ -1,1 +1,298 @@
-WITH IN 10 DAYS LUCH 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Books Display with New Image</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .book-card {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      width: 300px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 15px;
+      position: relative;
+    }
+    .image-wrapper {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    .image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .bestseller {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: green;
+      color: white;
+      padding: 4px 10px;
+      font-size: 13px;
+      border-radius: 4px;
+    }
+    .title {
+      font-weight: bold;
+      margin: 12px 0 6px;
+      font-size: 16px;
+    }
+    .author {
+      font-size: 14px;
+      color: #666;
+    }
+    .rating {
+      font-size: 14px;
+      margin-top: 6px;
+      color: #333;
+    }
+    .price {
+      font-size: 15px;
+      margin-top: 6px;
+      color: green;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: red;
+      margin-left: 5px;
+    }
+    .free-delivery {
+      font-size: 13px;
+      color: #007bff;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a herf="course1-page.html" class="book-card-link">
+  <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="PW Objective NCERT Punch Biology">
+    </div>
+    <div class="title">PW Objective NCERT Punch Biology</div>
+    <div class="author">Dr. Vipin Kumar Sharma</div>
+    <div class="rating">⭐ 4.6 (1,371) | ₹766 <span class="old-price">₹1,099</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+  </a> 
+ <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 - GS">
+    </div>
+    <div class="title">BPSC TRE 4.0 - GS</div>
+    <div class="author">Danish Sir</div>
+    <div class="rating">⭐ 4.8 (1,124) | ₹279 <span class="old-price">₹349</span></div>
+    <div class="free-delivery">Only few left</div>
+  </div>
+  
+  <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 - GS">
+    </div>
+    <div class="title">BPSC TRE 4.0 - GS</div>
+    <div class="author">Danish Sir</div>
+    <div class="rating">⭐ 4.8 (1,124) | ₹279 <span class="old-price">₹349</span></div>
+    <div class="free-delivery">Only few left</div>
+  </div>
+ <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 - GS">
+    </div>
+    <div class="title">BPSC TRE 4.0 - GS</div>
+    <div class="author">Danish Sir</div>
+    <div class="rating">⭐ 4.8 (1,124) | ₹279 <span class="old-price">₹349</span></div>
+    <div class="free-delivery">Only few left</div>
+  </div>
+   <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 - GS">
+    </div>
+    <div class="title">BPSC TRE 4.0 - GS</div>
+    <div class="author">Danish Sir</div>
+    <div class="rating">⭐ 4.8 (1,124) | ₹279 <span class="old-price">₹349</span></div>
+    <div class="free-delivery">Only few left</div>
+  </div>
+   <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 - GS">
+    </div>
+    <div class="title">BPSC TRE 4.0 - GS</div>
+    <div class="author">Danish Sir</div>
+    <div class="rating">⭐ 4.8 (1,124) | ₹279 <span class="old-price">₹349</span></div>
+    <div class="free-delivery">Only few left</div>
+  </div>
+   <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 - GS">
+    </div>
+    <div class="title">BPSC TRE 4.0 - GS</div>
+    <div class="author">Danish Sir</div>
+    <div class="rating">⭐ 4.8 (1,124) | ₹279 <span class="old-price">₹349</span></div>
+    <div class="free-delivery">Only few left</div>
+  </div>
+   <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 - GS">
+    </div>
+    <div class="title">BPSC TRE 4.0 - GS</div>
+    <div class="author">Danish Sir</div>
+    <div class="rating">⭐ 4.8 (1,124) | ₹279 <span class="old-price">₹349</span></div>
+    <div class="free-delivery">Only few left</div>
+  </div>
+   <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 - GS">
+    </div>
+    <div class="title">BPSC TRE 4.0 - GS</div>
+    <div class="author">Danish Sir</div>
+    <div class="rating">⭐ 4.8 (1,124) | ₹279 <span class="old-price">₹349</span></div>
+    <div class="free-delivery">Only few left</div>
+  </div>
+   <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BPSC TRE 4.0 - GS">
+    </div>
+    <div class="title">BPSC TRE 4.0 - GS</div>
+    <div class="author">Danish Sir</div>
+    <div class="rating">⭐ 4.8 (1,124) | ₹279 <span class="old-price">₹349</span></div>
+    <div class="free-delivery">Only few left</div>
+  </div>
+   <div class="book-card">
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="Deep Work & Power">
+    </div>
+    <div class="title">Deep Work & Power</div>
+    <div class="author">Cal Newport, Robert Greene</div>
+    <div class="rating">⭐ 4.0 (100) | ₹259 <span class="old-price">₹998</span></div>
+    <div class="free-delivery">Free delivery</div>
+  </div>
+
+  
+  <div class="book-card">
+    <div class="bestseller">Bestseller</div>
+    <div class="image-wrapper">
+      <img src="https://iili.io/3GIJYBt.jpg" alt="BRAHMASTRA Complete Maths">
+    </div>
+    <div class="title">BRAHMASTRA Complete Maths</div>
+    <div class="author">Aditya Ranjan</div>
+    <div class="rating">⭐ 4.5 (13,527) | ₹169 <span class="old-price">₹340</span></div>
+    <div class="free-delivery">Free delivery by 26th Apr</div>
+  </div>
+</div>
+
+</body>
+</html>
