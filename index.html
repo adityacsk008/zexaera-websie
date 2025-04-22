@@ -458,6 +458,51 @@
         </div>
     </section>
 
+<div class="visit-site-wrapper">
+  <a href="https://my-portfolio-babes.vercel.app/" target="_blank" class="visit-site-btn">🌐 Visit My Portfolio  🚀</a>
+</div>
+
+<style>
+.visit-site-wrapper {
+  text-align: center;
+  margin-top: 50px;
+  perspective: 1000px;
+}
+
+.visit-site-btn {
+  display: inline-block;
+  padding: 18px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(270deg, #ff00cc, #00c6ff, #66bb6a, #ff9900, #ff0066);
+  background-size: 1000% 1000%;
+  animation: colorFlow 10s ease infinite;
+  border-radius: 50px;
+  text-decoration: none;
+  transform: translateZ(15px);
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25),
+              inset 2px 2px 8px rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+.visit-site-btn:hover {
+  transform: translateZ(30px) rotateY(10deg);
+  letter-spacing: 2px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35),
+              inset 3px 3px 10px rgba(255, 255, 255, 0.4);
+}
+
+@keyframes colorFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+</style>
+
+
+                
     <!-- Courses Section -->
     <section id="courses" class="py-16 bg-white">
         <div class="container mx-auto px-4">
