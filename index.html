@@ -2671,233 +2671,184 @@
 
 
         
-        <div class="flex justify-between items-center">
-            <div class="flex items-center">
-                <i class="fas fa-star text-yellow-400 mr-1"></i>
-                <span class="text-gray-700">4.9 (87)</span>
-            </div>
-            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-all">
-                Add to Cart
-            </a>
-        </div>
-    </div>
-</div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Founder - Your Website</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Founder - ZexaEra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Poppins', sans-serif;
-      background-color: #0a192f; /* Dark navy blue background */
-      color: #ccd6f6; /* Light blue text color */
+      animation: changeBg 20s infinite linear;
+      color: #1a1a1a;
+      overflow-x: hidden;
+      border: 10px solid;
+      border-image: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd, #c2e9fb) 1;
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      animation: borderSpin 15s linear infinite, changeBg 20s infinite linear;
+    }
+
+    @keyframes changeBg {
+      0% { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+      20% { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); }
+      40% { background: linear-gradient(135deg, #d4fc79, #96e6a1); }
+      60% { background: linear-gradient(135deg, #84fab0, #8fd3f4); }
+      80% { background: linear-gradient(135deg, #fccb90, #d57eeb); }
+      100% { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+    }
+
+    @keyframes borderSpin {
+      0% { border-image-source: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd, #c2e9fb); }
+      25% { border-image-source: linear-gradient(45deg, #fad0c4, #fbc2eb, #a1c4fd, #c2e9fb, #ff9a9e); }
+      50% { border-image-source: linear-gradient(45deg, #fbc2eb, #a1c4fd, #c2e9fb, #ff9a9e, #fad0c4); }
+      75% { border-image-source: linear-gradient(45deg, #a1c4fd, #c2e9fb, #ff9a9e, #fad0c4, #fbc2eb); }
+      100% { border-image-source: linear-gradient(45deg, #c2e9fb, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd); }
     }
 
     .founder-section {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       min-height: 100vh;
+      animation: slideUp 2s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .left-panel {
-      flex: 1;
-      padding: 50px;
-      background-color: #0a192f;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.6);
+      border-top: 1px solid #ffdde1;
+      animation: slideInLeft 1.5s ease;
+    }
+
+    @keyframes slideInLeft {
+      from { transform: translateX(-100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
 
     .left-panel h4 {
-      color: #64ffda; /* Teal accent color */
+      color: #ff6f61;
+      font-size: 16px;
       margin-bottom: 10px;
-      font-size: 18px;
+      letter-spacing: 1px;
     }
 
     .left-panel h1 {
-      font-size: 48px;
+      font-size: 32px;
+      margin-bottom: 15px;
       font-weight: bold;
-      margin: 10px 0;
-      color: #e6f1ff; /* Bright white-blue for headings */
+      background: linear-gradient(270deg, #ff6ec4, #7873f5, #4ADEDE, #ff6ec4);
+      background-size: 800% 800%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 8s ease infinite;
+      text-shadow: none;
+    }
+
+    @keyframes gradientText {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .left-panel p {
-      color: #8892b0; /* Muted blue for paragraphs */
-      line-height: 1.6;
-      font-size: 18px;
-      max-width: 500px;
+      font-size: 15px;
+      color: #333;
+      margin: 10px auto 20px;
+      max-width: 95%;
     }
 
     .left-panel button {
-      margin-top: 30px;
-      padding: 15px 30px;
-      background-color: transparent;
-      border: 1px solid #64ffda; /* Teal border */
-      border-radius: 4px;
-      color: #64ffda; /* Teal text */
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      border: none;
+      color: #000;
+      padding: 10px 20px;
+      font-size: 14px;
       font-weight: bold;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-size: 16px;
-      width: fit-content;
+      animation: popIn 1s ease;
     }
 
     .left-panel button:hover {
-      background-color: rgba(100, 255, 218, 0.1); /* Light teal hover */
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(255, 182, 193, 0.4);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     .right-panel {
-      flex: 1;
       background-image: url('https://i.ibb.co/XxdxrXg7/founder.png');
-      background-size: cover;
+      background-size: contain;
+      background-repeat: no-repeat;
       background-position: center;
-      min-height: 100vh;
-      position: relative;
+      width: 100%;
+      height: 200px;
+      animation: floatImage 6s ease-in-out infinite;
     }
 
-    /* Optional overlay to match your site's aesthetic */
-    .right-panel::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(10, 25, 47, 0.2); /* Semi-transparent navy overlay */
+    @keyframes floatImage {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
     }
 
-    @media (max-width: 768px) {
+    @media (min-width: 768px) {
       .founder-section {
-        flex-direction: column;
+        flex-direction: row;
       }
 
       .left-panel {
-        padding: 30px;
-      }
-
-      .left-panel h1 {
-        font-size: 36px;
+        flex: 1;
+        text-align: left;
+        padding: 60px;
       }
 
       .right-panel {
-        min-height: 400px;
+        flex: 1;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .left-panel h1 {
+        font-size: 48px;
+      }
+
+      .left-panel p {
+        font-size: 18px;
       }
     }
   </style>
 </head>
 <body>
-
   <section class="founder-section">
     <div class="left-panel">
       <h4>Founder & CEO</h4>
       <h1>Mr. Aditya Kumar</h1>
       <p>
-        Aditya Kumar is the visionary Founder & CEO of ZexaEra, a rising platform empowering students and entrepreneurs with essential digital skills. With a strong dedication to learning and leadership, Aditya aims to bridge the gap between knowledge and practical application in the tech world. His mission is to help others unlock their potential and create a successful future online.
+        Aditya Kumar is the visionary Founder & CEO of <strong>ZexaEra</strong>, a rising platform empowering students and entrepreneurs with essential digital skills. With a strong dedication to learning and leadership, Aditya aims to bridge the gap between knowledge and practical application in the tech world. His mission is to help others unlock their potential and create a successful future online.
       </p>
-      <button>Get Started</button>
+      <button onclick="alert('Welcome to ZexaEra!')">Get Started</button>
     </div>
     <div class="right-panel"></div>
   </section>
-
 </body>
-</html> 
-
-    <script>
-        // Mobile menu functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            // Signup functionality
-            const signupBtn = document.getElementById('signupBtn');
-            const mobileSignupBtn = document.getElementById('mobileSignupBtn');
-            const signupModal = document.getElementById('signupModal');
-            const closeModal = document.getElementById('closeModal');
-            const signupForm = document.getElementById('signupForm');
-            
-            // Open signup modal
-            signupBtn.addEventListener('click', function() {
-                signupModal.classList.remove('hidden');
-            });
-            
-            // Open signup modal from mobile menu
-            mobileSignupBtn.addEventListener('click', function() {
-                signupModal.classList.remove('hidden');
-                mobileMenu.classList.add('hidden');
-            });
-            
-            // Close signup modal
-            closeModal.addEventListener('click', function() {
-                signupModal.classList.add('hidden');
-            });
-            
-            // Close modal when clicking outside
-            signupModal.addEventListener('click', function(e) {
-                if (e.target === signupModal) {
-                    signupModal.classList.add('hidden');
-                }
-            });
-            
-            // Handle signup form submission
-            signupForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('signupName').value;
-                const email = document.getElementById('signupEmail').value;
-                const password = document.getElementById('signupPassword').value;
-                const confirmPassword = document.getElementById('signupConfirmPassword').value;
-                
-                // Simple validation
-                if (password !== confirmPassword) {
-                    alert('Passwords do not match!');
-                    return;
-                }
-                
-                // Check if email already exists
-                const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
-                const emailExists = registeredUsers.some(user => user.email === email);
-                
-                if (emailExists) {
-                    alert('An account with this email already exists. Please use a different email or try logging in.');
-                    return;
-                }
-                
-                // Store user data in localStorage
-                const signupSubmitBtn = document.getElementById('signupSubmitBtn');
-                signupSubmitBtn.disabled = true;
-                signupSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Creating Account...';
-                
-                setTimeout(function() {
-                    // Add the new user to registered users
-                    registeredUsers.push({
-                        name: name,
-                        email: email,
-                        password: password
-                    });
-                    
-                    // Save updated users list to localStorage
-                    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
-                    
-                    // Simulate successful signup
-                    alert('Account created successfully! You can now log in with your email and password.');
-                    signupModal.classList.add('hidden');
-                    
-                    // Reset form
-                    signupForm.reset();
-                    signupSubmitBtn.disabled = false;
-                    signupSubmitBtn.textContent = 'Create Account';
-                    
-                    // Redirect to admin login page
-                    window.location.href = 'admin-login.html';
-                }, 1500);
-            });
-        });
-    </script>
-</body>
-</html> 
+</html>
