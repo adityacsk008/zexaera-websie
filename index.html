@@ -1,6 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEXAERA - Final Animated Version</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --bg-main: #000; --bg-gradient-start: #111; --bg-gradient-mid: #333; --bg-gradient-end: #222; --bg-header: rgba(10, 15, 28, 0.8);
+            --text-primary: #FFFFFF; --text-secondary: rgba(255, 255, 255, 0.75); --text-light-gray: #A0A0A0; --card-bg: #1A182E; --card-border: rgba(255, 255, 255, 0.1);
+            --card-border-hover: rgba(106, 119, 255, 0.5); --btn-bg: #222840; --input-bg: #0A0F1C; --footer-bg: #100E23;
+            --primary-blue-start: #00D4FF; --primary-blue-end: #007BFF; --secondary-purple: #8B5CF6; --new-badge: #00CFB4; --popular-badge: #FF6860;
+            --button-grad-start: #6A77FF; --button-grad-end: #00CFB4;
+            --glow-border-gradient: linear-gradient(120deg, var(--primary-blue-start), var(--secondary-purple), var(--primary-blue-start));
+        }
+
+        body[data-theme="light"] {
+            --bg-main: #F0F2F5; --bg-gradient-start: #E9EFF5; --bg-gradient-mid: #FFFFFF; --bg-gradient-end: #F5F7FA; --bg-header: rgba(255, 255, 255, 0.8);
+            --text-primary: #1A202C; --text-secondary: #4A5568; --text-light-gray: #718096; --card-bg: #FFFFFF; --card-border: rgba(0, 0, 0, 0.1);
+            --card-border-hover: var(--secondary-purple); --btn-bg: #E2E8F0; --input-bg: #FFFFFF; --footer-bg: #f8f9fa;
+        }
+        
+        body, .app-card, .feature-card, header, footer, .filter-btn, input, .developer-card-v2, .social-btn {
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        /* --- ANIMATION KEYFRAMES --- */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 15px rgba(139, 92, 246, 0.6); } 50% { box-shadow: 0 0 15px rgba(0, 212, 255, 0.6); } }
+        @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes background-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes float-rotate { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
+        @keyframes spin-gradient { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        @keyframes pulse-shadow { 0%, 100% { box-shadow: 0 0 20px rgba(106, 119, 255, 0.4); } 50% { box-shadow: 0 0 30px rgba(0, 207, 180, 0.5); } }
+        @keyframes pulse-text-glow { 0%, 100% { text-shadow: 0 0 8px rgba(0, 212, 255, 0.7); } 50% { text-shadow: 0 0 16px rgba(139, 92, 246, 0.7); } }
+
+        /* --- INTERACTIVITY & ANIMATIONS --- */
+        .fade-in-element { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in-element.is-visible { opacity: 1; transform: translateY(0); }
+        
+        #backToTopBtn { position: fixed; bottom: 20px; right: 20px; z-index: 100; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(45deg, var(--primary-blue-start), var(--secondary-purple)); color: #FFF; border: none; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.3s ease; }
+        #backToTopBtn.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        #backToTopBtn:hover { transform: scale(1.1); }
+
+        /* --- GENERAL STYLES --- */
+        body { margin: 0; font-family: 'Poppins', 'Inter', sans-serif; color: var(--text-primary); background-color: var(--bg-main); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; line-height: 1.6; }
+        .animation-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background: linear-gradient(270deg, var(--bg-main), var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end)); background-size: 400% 400%; animation: background-move 20s ease infinite; }
+        body[data-theme="light"] .animation-container { opacity: 0.5; }
+        .emoji { display: none; }
+        body[data-theme="dark"] .emoji { display: block; position: absolute; font-size: 2rem; color: white; animation: float-rotate linear infinite; animation-duration: var(--d); }
+        .container { max-width: 1200px; width: 100%; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+        .gradient-text-blue { background: linear-gradient(90deg, var(--primary-blue-start), var(--primary-blue-end)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 5s ease infinite; }
+        .gradient-text-brand { background: linear-gradient(90deg, var(--primary-blue-start), var(--secondary-purple)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        
+        /* --- HEADER --- */
+        header { padding: 15px 0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(15px); background-color: var(--bg-header); box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(139, 92, 246, 0.2); animation: fadeInDown 0.8s ease-out forwards; }
+        .header-logo, .header-right { display: flex; align-items: center; gap: 12px; }
+        .header-logo .icon { width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(45deg, var(--primary-blue-start), var(--secondary-purple)); display: flex; justify-content: center; align-items: center; font-size: 22px; font-weight: 700; color: #FFF; animation: pulseGlow 5s infinite ease-in-out; }
+        .header-nav a { color: var(--text-primary); text-decoration: none; margin-left: 35px; font-weight: 500; position: relative; padding-bottom: 8px; transition: color 0.3s ease, text-shadow 0.3s ease; }
+        .header-nav a:hover, .header-nav a.active { color: var(--primary-blue-start); text-shadow: 0 0 8px var(--primary-blue-start); }
+        .header-nav a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary-blue-start), var(--secondary-purple)); border-radius: 2px; }
+        .theme-btn { background: var(--btn-bg); border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, color 0.3s ease; }
+        .theme-btn:hover { transform: scale(1.1) rotate(15deg); color: var(--secondary-purple); }
+
+        /* --- HERO & SEARCH --- */
+        .hero-section { text-align: center; padding: 120px 0 90px; }
+        .hero-content h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 15px; line-height: 1.1; animation: fadeInUp 0.8s ease-out 0.2s forwards; opacity: 0; }
+        .hero-content h3 { font-size: 1.25rem; font-weight: 400; color: var(--text-secondary); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; animation: fadeInUp 0.8s ease-out 0.4s forwards; opacity: 0; }
+        .search-bar { animation: fadeInUp 0.8s ease-out 0.6s forwards; opacity: 0; width: 100%; max-width: 650px; position: relative; margin: 0 auto 50px auto; }
+        .category-filters { animation: fadeInUp 0.8s ease-out 0.8s forwards; opacity: 0; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .search-bar input { width: 100%; padding: 18px 25px 18px 60px; border-radius: 50px; border: 2px solid var(--card-border); background-color: var(--input-bg); color: var(--text-primary); font-size: 1rem; outline: none; transition: all 0.3s ease; }
+        .search-bar input:focus { border-color: var(--primary-blue-start); box-shadow: 0 0 25px rgba(0, 212, 255, 0.5); }
+        .search-bar .search-icon { position: absolute; left: 25px; top: 50%; transform: translateY(-50%); color: var(--text-light-gray); }
+        .filter-btn { padding: 12px 30px; border-radius: 50px; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; color: var(--text-primary); background-color: var(--btn-bg); }
+        .filter-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); }
+        .filter-btn.active { color: #FFF; background: linear-gradient(90deg, var(--primary-blue-start), var(--secondary-purple)); transform: translateY(-3px) scale(1.05); }
+
+        /* --- SECTIONS & BORDERED SECTIONS --- */
+        section { padding: 40px 0; }
+        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .bordered-section .section-title { animation: pulse-text-glow 4s infinite ease-in-out; }
+        .bordered-section { position: relative; background-color: rgba(26, 24, 46, 0.7); padding: 40px; border-radius: 24px; overflow: hidden; margin-bottom: 40px; backdrop-filter: blur(5px); }
+        .bordered-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 2px solid transparent; background: var(--glow-border-gradient) border-box; background-size: 200% 200%; -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite: destination-out; mask-composite: exclude; animation: spin-gradient 5s linear infinite; border-radius: 24px; }
+        body[data-theme="light"] .bordered-section { background-color: rgba(248, 249, 250, 0.7); }
+
+        .app-grid, .feature-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .app-card, .feature-card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 24px; }
+        .app-card:hover, .feature-card:hover { transform: translateY(-10px); }
+        .card-top { display: flex; gap: 16px; align-items: center; margin-bottom: 20px; }
+        .app-logo { width: 64px; height: 64px; border-radius: 16px; background-color: #3C3A53; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: 700; color: #FFF; flex-shrink: 0; overflow: hidden; }
+        .app-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .app-name { font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin: 0; }
+        .badge { padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; color: #FFF; }
+        .badge.new { background-color: var(--new-badge); } .badge.popular { background-color: var(--popular-badge); }
+        .app-subtitle { font-size: 0.9rem; color: var(--text-light-gray); margin-top: 4px; }
+        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 10px; }
+        .meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-light-gray); }
+        .download-button { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; padding: 14px; border-radius: 50px; border: none; background: linear-gradient(90deg, var(--button-grad-start), var(--button-grad-end)); color: #FFF; font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer; margin-top: auto; animation: pulse-shadow 3s infinite ease-in-out; }
+        .download-button:hover { transform: scale(1.05); animation-play-state: paused; }
+        .feature-card i { font-size: 2rem; color: var(--secondary-purple); margin-bottom: 15px; transition: transform 0.4s ease; } 
+        .feature-card:hover i { transform: scale(1.2) rotate(-10deg); }
+        .feature-card h3 { font-size: 1.25rem; color: var(--text-primary); }
+
+        /* --- CONTACT & FOOTER SOCIAL BUTTONS --- */
+        .social-buttons-grid, .connect-grid { display: grid; gap: 15px; }
+        .social-buttons-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); max-width: 550px; margin: 0 auto; }
+        .connect-grid { grid-template-columns: 1fr 1fr; }
+        .social-btn { display: flex; align-items: center; justify-content: center; padding: 12px 15px; border-radius: 12px; background-color: #2a283e; color: var(--text-secondary); text-decoration: none; font-weight: 500; gap: 10px; border: 1px solid var(--card-border); }
+        body[data-theme="light"] .social-btn { background-color: #fff; }
+        .social-btn:hover { transform: scale(1.05) translateY(-3px); color: #FFF; }
+        .social-btn:active { transform: scale(0.98); transition-duration: 0.1s; }
+        .social-btn i { transition: color 0.3s ease, -webkit-text-fill-color 0.3s ease; }
+        .social-btn.whatsapp:hover { background-color: #25D366; box-shadow: 0 0 20px #25D366; } .social-btn.whatsapp i { color: #25D366; } .social-btn.whatsapp:hover i { color: #FFF; }
+        .social-btn.whatsapp:active { box-shadow: 0 0 35px #25D366; }
+        .social-btn.telegram:hover { background-color: #0088CC; box-shadow: 0 0 20px #0088CC; } .social-btn.telegram i { color: #0088CC; } .social-btn.telegram:hover i { color: #FFF; }
+        .social-btn.telegram:active { box-shadow: 0 0 35px #0088CC; }
+        .social-btn.instagram i { background: linear-gradient(45deg, #E1306C, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .social-btn.instagram:hover { background: linear-gradient(45deg, #E1306C, #8B5CF6); box-shadow: 0 0 20px #E1306C; }
+        .social-btn.instagram:hover i { -webkit-text-fill-color: #FFF; background: none; }
+        .social-btn.instagram:active { box-shadow: 0 0 35px #E1306C; }
+        .social-btn.youtube:hover { background-color: #FF0000; box-shadow: 0 0 20px #FF0000; } .social-btn.youtube i { color: #FF0000; } .social-btn.youtube:hover i { color: #FFF; }
+        .social-btn.youtube:active { box-shadow: 0 0 35px #FF0000; }
+        
+        /* --- REDESIGNED FOOTER --- */
+        footer { margin-top: auto; background-color: var(--footer-bg); padding: 60px 0 0; border-top: 2px solid var(--primary-blue-start); position: relative; }
+        .footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1.5fr; gap: 40px; padding-bottom: 60px; }
+        .footer-col { display: flex; flex-direction: column; gap: 20px; }
+        .footer-col h4 { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; margin: 0 0 5px; background: linear-gradient(90deg, var(--secondary-purple), var(--primary-blue-start)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .brand-header { display: flex; align-items: center; gap: 15px; }
+        .footer-logo { width: 80px; height: 80px; background: linear-gradient(45deg, var(--secondary-purple), #5a2cfa); border-radius: 28%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.9), 0 5px 15px rgba(0,0,0,0.3); flex-shrink: 0; }
+        .footer-logo-icon { font-size: 32px; font-weight: bold; color: white; }
+        .brand-details h3 { font-size: 1.8rem; margin: 0; background: linear-gradient(90deg, var(--primary-blue-start), var(--secondary-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .brand-details p { margin: 5px 0 0; color: var(--text-secondary); font-size: 0.9rem; }
+        .footer-tagline { color: var(--text-light-gray); font-size: 0.95rem; max-width: 350px; line-height: 1.7; }
+        .footer-nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
+        .footer-nav a { color: var(--text-secondary); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: color 0.3s ease, transform 0.3s ease; }
+        .footer-nav a:hover { color: var(--primary-blue-start); transform: translateX(5px); }
+        .developer-card-v2 { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 25px; text-align: center; position: relative; overflow: hidden; }
+        .dev-profile-pic { width: 70px; height: 70px; margin: 0 auto 15px; background: linear-gradient(45deg, var(--secondary-purple), #5a2cfa); border-radius: 22%; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9); display: flex; align-items: center; justify-content: center; }
+        .dev-profile-pic-icon { font-size: 28px; font-weight: bold; color: white; }
+        .developer-card-v2 h5 { font-size: 1.2rem; margin: 0; color: var(--text-primary); }
+        .developer-card-v2 p { color: var(--text-light-gray); font-size: 0.9rem; margin: 5px 0; }
+        .dev-tags { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .dev-tag { background: var(--secondary-purple); color: #FFF; font-size: 0.75rem; padding: 5px 15px; border-radius: 50px; }
+        .copyright-bar { border-top: 1px solid var(--card-border); padding: 25px 0; text-align: center; font-size: 0.9rem; color: var(--text-light-gray); }
+        .copyright-bar .crafted-by { margin-top: 5px; } .copyright-bar .heart-icon { color: #FF4D6D; }
+        
+        body[data-theme="light"] footer { border-top: 2px solid var(--secondary-purple); }
+        body[data-theme="light"] .social-btn { border: 1px solid var(--card-border); }
+        body[data-theme="light"] .developer-card-v2 { background: #fff; border: 1px solid rgba(0, 0, 0, 0.1); }
+        body[data-theme="light"] .dev-tag { background: #e9d5ff; color: #581c87; }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 1024px) {
+            .hero-content h1 { font-size: 3rem; } .hero-content h3 { font-size: 1.1rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr; } .footer-col.brand-column { grid-column: 1 / -1; }
+        }
+        @media (max-width: 768px) {
+            .header-nav { display: none; }
+            section { padding: 30px 0; }
+            .hero-section { padding: 80px 0 60px; }
+            .bordered-section { padding: 20px; margin-bottom: 30px; }
+            .hero-content h1, .section-title { font-size: 2.2rem; }
+            .hero-content h3 { font-size: 1rem; }
+            .category-filters { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; -ms-overflow-style: none; }
+            .category-filters::-webkit-scrollbar { display: none; } .filter-btn { flex-shrink: 0; }
+            .app-grid, .feature-cards-grid, .social-buttons-grid, .footer-grid, .connect-grid { grid-template-columns: 1fr; }
+            .footer-col { align-items: center; text-align: center; }
+            .brand-header { flex-direction: column; } .footer-tagline { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <a href="#top" id="backToTopBtn" aria-label="Back to Top"><i class="fas fa-arrow-up"></i></a>
+
+    <div class="animation-container">
+        <div class="emoji" style="--d:12s; left: 10%; top: 15%;">✨</div> <div class="emoji" style="--d:18s; left: 80%; top: 20%;">🚀</div>
+        <div class="emoji" style="--d:15s; left: 5%; top: 70%;">⭐</div> <div class="emoji" style="--d:20s; left: 90%; top: 85%;">💻</div>
+        <div class="emoji" style="--d:14s; left: 50%; top: 5%;">⚡</div>
+    </div>
+
+    <header class="container" id="top">
+        <div class="header-logo"><div class="icon">ZE</div> <span class="gradient-text-brand" style="font-size: 1.5rem; font-weight: bold;">ZEXAERA</span></div>
+        <div class="header-right">
+            <nav class="header-nav"><a href="#apps" class="active">Apps</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle Theme"><i class="fas fa-sun"></i></button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container hero-content">
+                <h1>My Apps Collection</h1>
+                <h3>Discover our premium modified applications for Free</h3>
+                <div class="search-bar"><i class="fas fa-search search-icon"></i><input type="text" id="searchInput" placeholder="Search apps…"></div>
+                <div class="category-filters">
+                    <button class="filter-btn active" data-category="all">All</button><button class="filter-btn" data-category="educational">Educational</button>
+                    <button class="filter-btn" data-category="new">New</button><button class="filter-btn" data-category="popular">Popular</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="bordered-section" id="apps">
+                <h2 class="section-title gradient-text-blue fade-in-element">Explore Our Apps</h2>
+                <div class="app-grid">
+                    <div class="app-card fade-in-element" data-category="new educational"><div class="card-top"><div class="app-logo"><img src="https://play-lh.googleusercontent.com/y0I5o_T921Jq_YGo06sQnsZgrRh3C6h2bJqgLCs4U_PraV75_QLu5ADLq3E2iIdmwg" alt="Logo"></div><div class="app-details"><h3 class="app-name">Khan Global Studies</h3><p class="app-subtitle">KGS MOD APK v21.21.6 <span class="badge new">NEW</span></p></div></div><div class="card-meta"><div class="meta-item"><i class="fas fa-code-branch"></i><span>v21.21.6</span></div><div class="meta-item"><i class="fas fa-download"></i><span>50k+</span></div><div class="meta-item"><i class="fas fa-box-archive"></i><span>25 MB</span></div></div><a href="#" class="download-button"><i class="fas fa-download"></i><span>Download</span></a></div>
+                    <div class="app-card fade-in-element" data-category="popular educational" style="transition-delay: 0.1s;"><div class="card-top"><div class="app-logo">NT</div><div class="app-details"><h3 class="app-name">Next Toppers</h3><p class="app-subtitle">NT MOD APK v14.21.6 <span class="badge popular">POPULAR</span></p></div></div><div class="card-meta"><div class="meta-item"><i class="fas fa-code-branch"></i><span>v14.21.6</span></div><div class="meta-item"><i class="fas fa-download"></i><span>10k+</span></div><div class="meta-item"><i class="fas fa-box-archive"></i><span>21 MB</span></div></div><a href="#" class="download-button"><i class="fas fa-download"></i><span>Download</span></a></div>
+                    <div class="app-card fade-in-element" data-category="popular" style="transition-delay: 0.2s;"><div class="card-top"><div class="app-logo">PW</div><div class="app-details"><h3 class="app-name">AS MULTIVERSE [PW]</h3><p class="app-subtitle">PW MOD APK v3.02.7 <span class="badge popular">POPULAR</span></p></div></div><div class="card-meta"><div class="meta-item"><i class="fas fa-code-branch"></i><span>v3.02.7</span></div><div class="meta-item"><i class="fas fa-download"></i><span>100k+</span></div><div class="meta-item"><i class="fas fa-box-archive"></i><span>26 MB</span></div></div><a href="#" class="download-button"><i class="fas fa-download"></i><span>Download</span></a></div>
+                    <div class="app-card fade-in-element" data-category="educational" style="transition-delay: 0.3s;"><div class="card-top"><div class="app-logo"><img src="https://play-lh.googleusercontent.com/1-hPxafO0W835t-V2BCs5KnVEp05M3p_22A-mI2dlQJjdoW3K_u6Ecr-P5J2kOpxdw" alt="Logo"></div><div class="app-details"><h3 class="app-name">Rojgar With Ankit [RWA]</h3><p class="app-subtitle">RWA MOD APK - v10.21.6</p></div></div><div class="card-meta"><div class="meta-item"><i class="fas fa-code-branch"></i><span>v10.21.6</span></div><div class="meta-item"><i class="fas fa-download"></i><span>30k+</span></div><div class="meta-item"><i class="fas fa-box-archive"></i><span>25 MB</span></div></div><a href="#" class="download-button"><i class="fas fa-download"></i><span>Download</span></a></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="bordered-section" id="about">
+                <h2 class="section-title gradient-text-blue fade-in-element">About ZEXAERA</h2>
+                <div class="feature-cards-grid">
+                    <div class="feature-card fade-in-element"><i class="fas fa-key"></i><h3>Premium Unlocked</h3><p>Access all premium features without any cost. Our modified apps provide enhanced functionality.</p></div>
+                    <div class="feature-card fade-in-element" style="transition-delay: 0.1s;"><i class="fas fa-sync-alt"></i><h3>Regular Updates</h3><p>We provide frequent updates to ensure our applications are compatible with the latest device software.</p></div>
+                    <div class="feature-card fade-in-element" style="transition-delay: 0.2s;"><i class="fas fa-shield-alt"></i><h3>Safe & Secure</h3><p>Enjoy our collection of apps on a wide range of devices. We focus on providing safe solutions.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="bordered-section" id="contact">
+                <h2 class="section-title gradient-text-blue fade-in-element"><i class="fas fa-comments"></i> Get In Touch</h2>
+                <p class="fade-in-element" style="text-align: center; color: var(--text-secondary); max-width: 550px; margin: 0 auto 40px auto;">Join our community and stay updated with the latest releases.</p>
+                <div class="social-buttons-grid">
+                    <a href="#" target="_blank" class="social-btn whatsapp fade-in-element"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="https://t.me/mainstudyzone" target="_blank" class="social-btn telegram fade-in-element" style="transition-delay: 0.1s;"><i class="fab fa-telegram-plane"></i> Telegram</a>
+                    <a href="https://www.instagram.com/carrysage001/" target="_blank" class="social-btn instagram fade-in-element" style="transition-delay: 0.2s;"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="https://www.youtube.com/@startonmusic415" target="_blank" class="social-btn youtube fade-in-element" style="transition-delay: 0.3s;"><i class="fab fa-youtube"></i> YouTube</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col brand-column">
+                    <div class="brand-header"><div class="footer-logo"><span class="footer-logo-icon">ZE</span></div><div class="brand-details"><h3>ZEXAERA</h3><p>Powered by Innovation • CarrySage</p></div></div>
+                    <p class="footer-tagline">Your trusted source for premium educational & modified apps for free.</p>
+                    <div><h4><i class="fas fa-share-alt"></i> Connect With Us</h4><div class="connect-grid"><a href="#" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a><a href="https://t.me/mainstudyzone" target="_blank" class="social-btn telegram"><i class="fab fa-telegram-plane"></i> Telegram</a><a href="https://www.instagram.com/carrysage001/" target="_blank" class="social-btn instagram"><i class="fab fa-instagram"></i> Instagram</a><a href="https://www.youtube.com/@startonmusic415" target="_blank" class="social-btn youtube"><i class="fab fa-youtube"></i> YouTube</a></div></div>
+                </div>
+                <div class="footer-col">
+                    <h4><i class="fas fa-link"></i> Quick Navigation</h4>
+                    <nav class="footer-nav"><ul><li><a href="#apps"><i class="fas fa-box"></i> Browse Apps</a></li><li><a href="#about"><i class="fas fa-info-circle"></i> About Us</a></li><li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li></ul></nav>
+                </div>
+                <div class="footer-col">
+                    <h4><i class="fas fa-code"></i> Developer Info</h4>
+                    <div class="developer-card-v2">
+                        <div class="dev-profile-pic"><span class="dev-profile-pic-icon">CS</span></div><h5>CarrySage</h5><p>Founder & Lead Developer</p><p>"The All-Rounder Techie"</p>
+                        <div class="dev-tags"><span class="dev-tag">Android</span><span class="dev-tag">Web Dev</span><span class="dev-tag">UI/UX</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright-bar">
+                <p>© 2024 ZEXAERA. All rights reserved.</p><p class="crafted-by">Crafted With <i class="fas fa-heart heart-icon"></i> by "CarrySage"</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const applyTheme = (theme) => {
+                document.body.setAttribute('data-theme', theme);
+                themeToggleBtn.querySelector('i').className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            };
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+            themeToggleBtn.addEventListener('click', () => {
+                const newTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            const backToTopBtn = document.getElementById('backToTopBtn');
+            window.addEventListener('scroll', () => {
+                backToTopBtn.classList.toggle('show', window.scrollY > 300);
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-element').forEach(el => observer.observe(el));
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const appCards = document.querySelectorAll('.app-card');
+            const searchInput = document.getElementById('searchInput');
+            const runFilterAndSearch = () => {
+                const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+                const searchTerm = searchInput.value.toLowerCase();
+                appCards.forEach(card => {
+                    const isInCategory = activeCategory === 'all' || card.dataset.category.includes(activeCategory);
+                    const isInSearch = card.textContent.toLowerCase().includes(searchTerm);
+                    card.style.display = isInCategory && isInSearch ? 'flex' : 'none';
+                });
+            };
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    runFilterAndSearch();
+                });
+            });
+            searchInput.addEventListener('input', runFilterAndSearch);
+
+            document.querySelectorAll('.download-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const appName = button.closest('.app-card').querySelector('.app-name').textContent;
+                    alert(`Starting download for ${appName}...`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <title>Zexaera - Web Solutions</title>
   <meta name="description" content="Zexaera provides modern, responsive, and fast web solutions.">
   <meta name="keywords" content="Zexaera, website, web development, HTML, CSS, responsive design">
@@ -9,20 +359,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="canonical" href="https://adityacsk008.github.io/zexaera-websie/">
   <!-- Add your CSS and other links here -->
-  <link rel="stylesheet" href="style.css">
+ <!-- 
+ <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- Your body content -->
 
-    <meta charset="UTF-8">
+<!-- 
+    
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Course Online Store</title>
 
  <!-- ✅ Add this canonical tag below the title -->
+<!-- 
   <link rel="canonical" href="https://zexaera.store/" />
 </head>
     
 <!-- Place this code just after <body> tag in your website -->
+<!-- 
 
 <div id="cyberBanner" style="
   width: 100%;
@@ -59,11 +414,14 @@
       gtag('js', new Date());
       gtag('config', 'G-RG9X8EHC3M');
     </script>
+<!-- 
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 
+<script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <!-- 
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Animation Styles - lines 1-40 */
         @keyframes fadeIn {
@@ -91,17 +449,20 @@
 <body class="font-sans bg-gradient-to-br from-purple-100 via-blue-100 to-pink-100">
 
   <!-- Navigation Bar -->
-  <nav class="fixed top-0 left-0 w-full bg-white shadow-lg z-0">
+  <!-- 
+<nav class="fixed top-0 left-0 w-full bg-white shadow-lg z-0">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
       
       <!-- Logo + Brand Name -->
-      <div class="flex items-center space-x-3">
+   <!-- 
+   <div class="flex items-center space-x-3">
         <img src="" alt="ZexaEra Logo" class="w-10 h-10 object-contain">
         <span class="text-3xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 text-transparent bg-clip-text">ZexaEra</span>
       </div>
 
       <!-- Navigation Links -->
-      <div class="hidden md:flex space-x-6">
+     <!-- 
+ <div class="hidden md:flex space-x-6">
         <a href="#home" class="text-gray-700 hover:text-purple-600 font-medium transition-all">Home</a>
         <a href="#about" class="text-gray-700 hover:text-purple-600 font-medium transition-all">About</a>
         <a href="#courses" class="text-gray-700 hover:text-purple-600 font-medium transition-all">Courses</a>
@@ -113,7 +474,8 @@
   </nav>
 
   <!-- Padding top to avoid navbar overlap -->
-  <div class="pt-20 text-center">
+ <!-- 
+ <div class="pt-20 text-center">
     <h1 class="text-8xl font-bold text-gray-800">Welcome to <span class="bg-gradient-to-r from-purple-600 via-blue-500 to-pink-500 text-transparent bg-clip-text">ZexaEra</span></h1>
     <p class="mt-4 text-3xl bg-gradient-to-r from-sky-400 via-violet-450 to-rose-500 text-transparent bg-clip-text">
         Learn. Grow. Earn. 🚀
@@ -271,13 +633,15 @@
 </style>
             
             <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+        <!-- 
+    <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
         
         <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+      <!-- 
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
             <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
                 <a href="#home" class="text-gray-700 hover:text-blue-600 transition-all">Home</a>
                 <a href="#about" class="text-gray-700 hover:text-blue-600 transition-all">About</a>
@@ -290,7 +654,8 @@
     </nav>
 
     <!-- Signup Modal (Hidden by default) -->
-    <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+   <!-- 
+ <div id="signupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full animate-fadeIn">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold text-gray-800">Create Account</h3>
@@ -340,11 +705,13 @@
 
     
    <!-- Hero Section -->
-   <section class="pt-32 pb-20 px-4 md:px-0">
+  <!-- 
+ <section class="pt-32 pb-20 px-4 md:px-0">
     <div class="max-w-7xl mx-auto">
         <div class="grid md:grid-cols-2 gap-12 items-center">
             <!-- Left Column - Text Content -->
-            <div class="space-y-6 animate-slideInLeft">
+       <!-- 
+     <div class="space-y-6 animate-slideInLeft">
                 <div class="text-blue-600 font-medium">Welcome To ZexaEra</div>
                 <h1 class="text-4xl md:text-5xl font-bold text-blue-900 leading-tight">
                     Discover Skills<br>
@@ -362,7 +729,8 @@
                     </button>
                 </div>
                 <!-- Feature Cards -->
-                <div class="grid grid-cols-2 gap-4 mt-8">
+           <!-- 
+     <div class="grid grid-cols-2 gap-4 mt-8">
                     <div class="feature-card">
                         <div class="text-red-500 mb-2">
                             <i class="fas fa-book-open text-2xl"></i>
@@ -391,26 +759,32 @@
             </div>
             
             <!-- Right Column - Image -->
-            <div class="relative animate-slideInRight">
+          <!-- 
+  <div class="relative animate-slideInRight">
                 <div class="relative">
                     <!-- Main Image with Monitor Frame -->
-                    <div class="relative w-full max-w-2xl mx-auto">
+                  <!-- 
+  <div class="relative w-full max-w-2xl mx-auto">
                         <!-- Monitor Frame -->
-                        <div class="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-2xl blur-xl"></div>
+                     <!-- 
+   <div class="absolute inset-0 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-2xl blur-xl"></div>
                         <!-- Main Image -->
-                        <img src="https://iili.io/3lJmudg.md.webp" alt="Professional Setup" 
+                      <!-- 
+  <img src="https://iili.io/3lJmudg.md.webp" alt="Professional Setup" 
                              class="relative w-full h-auto object-contain z-20 rounded-xl shadow-2xl 
                                     hover:scale-105 transition-transform duration-300">
                     </div>
 
                     <!-- Decorative Elements -->
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                   <!-- 
+ <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
                                 w-[110%] h-[110%] bg-gradient-to-r from-blue-500/10 to-purple-500/10 
                                 rounded-full blur-2xl -z-10"></div>
                 </div>
                 
     <!-- Decorative Blobs -->
-    <div class="blob-1 blob-shape"></div>
+    <!-- 
+<div class="blob-1 blob-shape"></div>
     <div class="blob-2 blob-shape"></div>
 </section>
 
@@ -486,12 +860,14 @@
   </section>
 
   <!-- Call to Action -->
-  <section class="text-center py-10">
+  <!-- 
+<section class="text-center py-10">
     <button class="gradient-btn text-xl">Enroll Now</button>
   </section>
 
   <!-- Counter Animation Script -->
-  <script>
+  <!-- 
+<script>
     const counters = document.querySelectorAll('.counter');
 
     counters.forEach(counter => {
@@ -517,7 +893,8 @@
   
 
   <!-- About Section -->
-  <section id="about" class="py-16 bg-white bg-opacity-10 rounded-lg shadow-lg mx-4">
+  <!-- 
+<section id="about" class="py-16 bg-white bg-opacity-10 rounded-lg shadow-lg mx-4">
     <div class="container mx-auto px-4 text-center">
       <h2 class="text-3xl md:text-4xl font-bold mb-4">Why Choose Our Digital Courses</h2>
       <p class="text-lg mb-10 max-w-2xl mx-auto">We provide high-quality, practical education that helps you achieve your career goals.</p>
@@ -603,7 +980,8 @@
 
                 
     <!-- Courses Section -->
-    <section id="courses" class="py-16 bg-white">
+   <!-- 
+ <section id="courses" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Popular Courses</h2>
@@ -611,7 +989,8 @@
             </div>
             
             <!-- Course Filters -->
-            <div class="flex flex-wrap justify-center mb-8 gap-2">
+           <!-- 
+ <div class="flex flex-wrap justify-center mb-8 gap-2">
                 <button class="course-filter px-4 py-2 rounded-md bg-blue-600 text-white" data-filter="all">All Courses</button>
                 <button class="course-filter px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-filter="web">Web Development</button>
                 <button class="course-filter px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-filter="design">Design</button>
@@ -621,9 +1000,11 @@
             </div>
             
            <!-- Course Grid 1 -->
+<!-- 
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
     <!-- Course 1 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
+   <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
         <img src="https://iili.io/30CpzDg.webp" alt="web development" class="w-full h-48 object-cover">
         <div class="p-6">
             <div class="flex justify-between items-center mb-2">
@@ -645,7 +1026,8 @@
     
 
     <!-- Course 2 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
+   <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
         <img src="https://iili.io/30Cp3Vj.md.webp" alt="UI/UX Design Course" class="w-full h-48 object-cover">
         <div class="p-6">
             <div class="flex justify-between items-center mb-2">
@@ -665,7 +1047,8 @@
     </div>
     
     <!-- Course 3 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="marketing">
+   <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="marketing">
         <img src="https://iili.io/30CpqlV.md.webp" alt="Digital Marketing Course" class="w-full h-48 object-cover">
         <div class="p-6">
             <div class="flex justify-between items-center mb-2">
@@ -688,8 +1071,10 @@
         </div>
     </div>
     
-    <!-- Course 4 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="business">
+  <!-- 
+  <!-- Course 4 -->
+   <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="business">
         <img src="https://iili.io/30Cp2ob.md.webp" alt="Business Course" class="w-full h-48 object-cover">
       <div class="p-6">
           <div class="flex justify-between items-center mb-2">
@@ -711,7 +1096,8 @@
   </div>
 
     <!-- Course 5 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
+   <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
         <img src="https://iili.io/30CpfKQ.md.webp"  alt="React Course" class="w-full h-48 object-cover">
     <div class="p-6">
         <div class="flex justify-between items-center mb-2">
@@ -732,7 +1118,8 @@
 </div>
 
     <!-- Course 6 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
+  <!-- 
+  <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
         <img src="https://iili.io/30CpBUB.md.webp"  alt="Graphic Design Course" class="w-full h-48 object-cover">
         <div class="p-6">
             <div class="flex justify-between items-center mb-2">
@@ -753,9 +1140,11 @@
     </div>
 
 <!-- Course Grid 2 -->
+<!-- 
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
   <!-- Course 1 -->
-  <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
+  <!-- 
+<div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
       <img src="https://iili.io/30CpFix.md.webp"  alt="HTML Course" class="w-full h-48 object-cover">
                       <div class="p-6">
                           <div class="flex justify-between items-center mb-2">
@@ -775,6 +1164,7 @@
                   </div>
 
   <!-- Course 2 -->
+<!-- 
   <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
       <img src="https://iili.io/30CmyH7.md.webp"  alt="CorelDRAW Course" class="w-full h-48 object-cover">
       <div class="p-6">
@@ -795,7 +1185,8 @@
   </div>
 
   <!-- Course 3 -->
-  <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="marketing">
+ <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="marketing">
       <img src="https://iili.io/30CmLoG.md.webp"  alt="Basic Computer Course" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
@@ -815,7 +1206,8 @@
                     </div>
 
                                     <!-- Course 4 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="business">
+  <!-- 
+  <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="business">
       <img src="https://iili.io/30CpoR1.md.webp"  alt="Tally Course" class="w-full h-48 object-cover">
       <div class="p-6">
           <div class="flex justify-between items-center mb-2">
@@ -835,6 +1227,7 @@
   </div>
 
   <!-- Course 5 -->
+<!-- 
   <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
       <img src="https://iili.io/30Cp9R9.md.webp"  alt="CSS Course" class="w-full h-48 object-cover">
                         <div class="p-6">
@@ -855,7 +1248,8 @@
                     </div>
 
   <!-- Course 6 -->
-  <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
+ <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
       <img src="https://iili.io/30CmZP4.md.webp"  alt="ADCA Course" class="w-full h-48 object-cover">
       <div class="p-6">
           <div class="flex justify-between items-center mb-2">
@@ -878,7 +1272,8 @@
 <!-- Course Grid 3 -->
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
   <!-- Course 1 -->
-  <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
+ <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
       <img src="https://iili.io/30CpHNe.md.webp"  alt="CSS3 Course" class="w-full h-48 object-cover">
                       <div class="p-6">
                           <div class="flex justify-between items-center mb-2">
@@ -898,7 +1293,8 @@
   </div>
   
   <!-- Course 2 -->
-  <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
+ <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
       <img src="https://iili.io/30CpJDu.md.webp"  alt="DCA Course" class="w-full h-48 object-cover">
       <div class="p-6">
           <div class="flex justify-between items-center mb-2">
@@ -918,6 +1314,7 @@
   </div>
   
   <!-- Course 3 -->
+<!-- 
   <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="marketing">
       <img src="https://iili.io/30CpxOF.md.webp"  alt="Typing Course" class="w-full h-48 object-cover">
       <div class="p-6">
@@ -938,7 +1335,8 @@
                   </div>
 
                                   <!-- Course 4 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="business">
+   <!-- 
+<div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="business">
       <img src="https://iili.io/30CpnHP.md.webp"  alt="Tally Prime Course" class="w-full h-48 object-cover">
         <div class="p-6">
             <div class="flex justify-between items-center mb-2">
@@ -958,7 +1356,8 @@
     </div>
     
     <!-- Course 5 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
+   <!-- 
+ <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="web">
       <img src="https://iili.io/30Cmbl2.md.jpg" alt="JavaScript Course" class="w-full h-48 object-cover">
         <div class="p-6">
             <div class="flex justify-between items-center mb-2">
@@ -978,7 +1377,8 @@
     </div>
     
     <!-- Course 6 -->
-    <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
+  <!-- 
+  <div class="course-card bg-white rounded-lg overflow-hidden shadow-md hover-scale transition-all" data-category="design">
       <img src="https://iili.io/30CmmSS.md.jpg"  alt="Photoshop Course" class="w-full h-48 object-cover">
         <div class="p-6">
             <div class="flex justify-between items-center mb-2">
@@ -1034,6 +1434,7 @@
             
             
 <!-- Stylish Button -->
+<!-- 
 <a href="newcourses.html" target="_blank" class="premium-button">
   Skill Bazaar Premium Courses 🚀
 </a>
@@ -1070,14 +1471,18 @@
 
 
     <!-- Include Google Fonts (if not already added) -->
+<!-- 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- 🌈 Contact Section Starts -->
+<!--<!-- 
+ 🌈 Contact Section Starts -->
+<!-- 
 <section id="contact" style="padding: 80px 20px; background: linear-gradient(to right, #fceabb, #f8b500); font-family: 'Poppins', sans-serif;">
   <div style="max-width: 1200px; margin: 0 auto;">
     
     <!-- Section Heading -->
-    <div style="text-align: center; margin-bottom: 50px;">
+    <!-- 
+<div style="text-align: center; margin-bottom: 50px;">
       <h2 style="font-size: 36px; font-weight: 800; color: #ff4081;">Get In Touch 💌</h2>
       <p style="font-size: 18px; color: #333;">Have questions? We're here to help!</p>
     </div>
@@ -1085,7 +1490,8 @@
     <div style="display: flex; flex-wrap: wrap; gap: 40px;">
       
       <!-- Contact Form -->
-      <div style="flex: 1; min-width: 300px; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+   <!-- 
+   <div style="flex: 1; min-width: 300px; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
         <form id="contact-form" style="display: flex; flex-direction: column; gap: 20px;">
           <div>
             <label for="name" style="font-weight: 600; color: #333;">Full Name</label><br>
@@ -1119,7 +1525,8 @@
       </div>
 
       <!-- Contact Info -->
-      <div style="flex: 1; min-width: 300px; background: #ffffff90; backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
+      <!-- 
+<div style="flex: 1; min-width: 300px; background: #ffffff90; backdrop-filter: blur(10px); padding: 30px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);">
         <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 20px; color: #ff4081;">📞 Contact Information</h3>
         <ul style="list-style: none; padding: 0; color: #333;">
           <li style="margin-bottom: 20px;">
@@ -1303,7 +1710,8 @@
     }
   </style>
   <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ <!-- 
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -1311,9 +1719,11 @@
 
 
   <!-- Google Font (optional) -->
+<!-- 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <!-- Premium Heading Section -->
+<!-- 
 <div style="text-align: center; background: linear-gradient(90deg, #00c6ff, #0072ff); color: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 30px; font-family: 'Poppins', sans-serif;">
   
   <div style="font-size: 20px; font-weight: 600; letter-spacing: 1px;">
@@ -1424,7 +1834,8 @@
 
 <div class="packages-container">
     <!-- E-Lite Package -->
-    <div class="package-card">
+  <!-- 
+  <div class="package-card">
       <img src="https://media-hosting.imagekit.io/0084effeebe14605/Screenshot%202025-04-06%20131647.png" alt="E-Lite Package">
       <div class="package-title">E-Lite Package</div>
       <div class="package-price">₹ 599/-</div>
@@ -1449,7 +1860,8 @@
     </div>
 
     <!-- Silver Package -->
-    <div class="package-card">
+  <!-- 
+  <div class="package-card">
       <img src="https://media-hosting.imagekit.io/acbd057a92ec4857/Screenshot-2025-04-06-131546.png" alt="Silver Package">
       <div class="package-title">Silver Package</div>
       <div class="package-price">₹ 999/-</div>
@@ -1475,7 +1887,8 @@
     </div>
 
     <!-- Gold Package -->
-    <div class="package-card">
+   <!-- 
+ <div class="package-card">
       <img src="https://media-hosting.imagekit.io/5205227d343d452e/Screenshot%202025-04-06%20131613.png" alt="Gold Package">
       <div class="package-title">Gold Package</div>
       <div class="package-price">₹ 1,499/-</div>
@@ -1554,6 +1967,7 @@
 "no need to write anything here"
 
 <!-- Course Slider Section 1 -->
+<!-- 
 <section class="py-16 bg-blue-100">
   <div class="container mx-auto px-4">
       <div class="text-center mb-12">
@@ -1564,6 +1978,7 @@
       <div class="slider">
           <div class="slide-track">
               <!-- Slide 1 -->
+<!-- 
 <a href="web-development.html" target="_blank">
   <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
       <img src="https://iili.io/3cCJ4FS.png" alt="Course 1" class="w-full h-48 object-cover rounded-t-lg">
@@ -1579,7 +1994,8 @@
 
 
               <!-- Slide 2 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+        <!-- 
+      <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCJkwG.png" alt="Course 2" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 2</h3>
@@ -1591,7 +2007,8 @@
               </div>
 
               <!-- Slide 3 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+          <!-- 
+    <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCJvtf.png" alt="Course 3" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 3</h3>
@@ -1603,7 +2020,8 @@
               </div>
 
               <!-- Slide 4 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCJeus.png" alt="Course 4" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 4</h3>
@@ -1615,7 +2033,8 @@
               </div>
 
               <!-- Slide 5 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCJPS9.png" alt="Course 5" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 5</h3>
@@ -1627,7 +2046,8 @@
               </div>
 
               <!-- Slide 6 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCJs9e.png" alt="Course 6" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 6</h3>
@@ -1639,7 +2059,8 @@
               </div>
 
               <!-- Slide 7 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCJLAu.png" alt="Course 7" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 7</h3>
@@ -1651,7 +2072,8 @@
               </div>
 
               <!-- Slide 8 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCJbMQ.png" alt="Course 8" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 8</h3>
@@ -1663,7 +2085,8 @@
               </div>
 
               <!-- Slide 9 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCJmPV.png" alt="Course 9" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 9</h3>
@@ -1675,7 +2098,8 @@
               </div>
 
               <!-- Slide 10 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCd9cP.png" alt="Course 10" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 10</h3>
@@ -1687,7 +2111,8 @@
               </div>
 
               <!-- Slide 11 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCdHS1.png" alt="Course 11" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 11</h3>
@@ -1699,7 +2124,8 @@
               </div>
 
               <!-- Slide 12 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgA1p.png" alt="Course 12" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 12</h3>
@@ -1711,7 +2137,8 @@
               </div>
 
               <!-- Slide 13 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCdBPp.png" alt="Course 13" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 13</h3>
@@ -1723,7 +2150,8 @@
               </div>
 
               <!-- Slide 14 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCdolI.png" alt="Course 14" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 14</h3>
@@ -1735,7 +2163,8 @@
               </div>
 
               <!-- Slide 15 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCdxSt.png" alt="Course 15" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 15</h3>
@@ -1747,7 +2176,8 @@
               </div>
 
               <!-- Slide 16 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCdIHX.png" alt="Course 16" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 16</h3>
@@ -1759,7 +2189,8 @@
               </div>
 
               <!-- Slide 17 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBg1hG.png" alt="Course 17" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 17</h3>
@@ -1771,7 +2202,8 @@
               </div>
 
               <!-- Slide 18 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+           <!-- 
+   <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgNpe.png" alt="Course 18" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 18</h3>
@@ -1783,7 +2215,8 @@
               </div>
 
               <!-- Slide 19 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCd5xf.png" alt="Course 19" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 19</h3>
@@ -1795,7 +2228,8 @@
               </div>
 
               <!-- Slide 20 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCdcf2.png" alt="Course 20" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 20</h3>
@@ -1807,7 +2241,8 @@
               </div>
 
               <!-- Slide 21 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgvQj.png" alt="Course 21" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 21</h3>
@@ -1819,7 +2254,8 @@
               </div>
 
               <!-- Slide 22 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgSCx.png" alt="Course 22" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 22</h3>
@@ -1831,7 +2267,8 @@
               </div>
 
               <!-- Slide 23 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCdGRe.png" alt="Course 23" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 23</h3>
@@ -1843,7 +2280,8 @@
               </div>
 
               <!-- Slide 24 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+            <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgUEQ.png" alt="Course 24" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 24</h3>
@@ -1855,7 +2293,8 @@
               </div>
 
               <!-- Slide 25 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBg6YP.png" alt="Course 25" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 25</h3>
@@ -1867,7 +2306,8 @@
               </div>
 
               <!-- Slide 26 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgQja.png" alt="Course 26" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 26</h3>
@@ -1879,7 +2319,8 @@
               </div>
 
               <!-- Slide 27 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgbGR.png" alt="Course 27" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 27</h3>
@@ -1891,7 +2332,8 @@
               </div>
 
               <!-- Slide 28 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgm4p.png" alt="Course 28" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 28</h3>
@@ -1903,7 +2345,8 @@
               </div>
 
               <!-- Slide 29 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+           <!-- 
+   <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCdeUP.png" alt="Course 29" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 29</h3>
@@ -1915,7 +2358,8 @@
               </div>
 
               <!-- Slide 30 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCd85F.png" alt="Course 30" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 30</h3>
@@ -1931,13 +2375,15 @@
 </section>
 
 <!-- Course Slider Section 3 -->
+<!-- 
 <section class="py-16 bg-blue-100">
   
       
       <div class="slider">
           <div class="slide-track">
               <!-- Slide 1 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cC9vJn.png" alt="Course 1" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 1</h3>
@@ -1949,7 +2395,8 @@
               </div>
 
               <!-- Slide 2 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cC9Olt.png" alt="Course 2" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 2</h3>
@@ -1961,7 +2408,8 @@
               </div>
 
               <!-- Slide 3 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cC9eUX.png" alt="Course 3" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 3</h3>
@@ -1973,7 +2421,8 @@
               </div>
 
               <!-- Slide 4 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cC9NfI.png" alt="Course 4" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 4</h3>
@@ -1985,7 +2434,8 @@
               </div>
 
               <!-- Slide 5 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+            <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cC9rx4.png" alt="Course 5" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 5</h3>
@@ -1997,7 +2447,8 @@
               </div>
 
               <!-- Slide 6 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cC96s2.png" alt="Course 6" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 6</h3>
@@ -2009,7 +2460,8 @@
               </div>
 
               <!-- Slide 7 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cC9ifS.png" alt="Course 7" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 7</h3>
@@ -2021,7 +2473,8 @@
               </div>
 
               <!-- Slide 8 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+            <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cC9Lg9.png" alt="Course 8" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 8</h3>
@@ -2033,7 +2486,8 @@
               </div>
 
               <!-- Slide 9 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBguBR.png" alt="Course 9" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 9</h3>
@@ -2045,7 +2499,8 @@
               </div>
 
               <!-- Slide 10 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cC9pzx.png" alt="Course 10" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 10</h3>
@@ -2057,7 +2512,8 @@
               </div>
 
               <!-- Slide 11 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCH9sV.png" alt="Course 11" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 11</h3>
@@ -2069,7 +2525,8 @@
               </div>
 
               <!-- Slide 12 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCH2g1.png" alt="Course 12" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 12</h3>
@@ -2081,7 +2538,8 @@
               </div>
 
               <!-- Slide 13 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgEQf.png" alt="Course 13" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 13</h3>
@@ -2093,7 +2551,8 @@
               </div>
 
               <!-- Slide 14 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+           <!-- 
+   <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCHK5g.png" alt="Course 14" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 14</h3>
@@ -2105,7 +2564,8 @@
               </div>
 
               <!-- Slide 15 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgVEl.png" alt="Course 15" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 15</h3>
@@ -2117,7 +2577,8 @@
               </div>
 
               <!-- Slide 16 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgW42.png" alt="Course 16" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 16</h3>
@@ -2129,7 +2590,8 @@
               </div>
 
               <!-- Slide 17 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgh2S.png" alt="Course 17" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 17</h3>
@@ -2141,7 +2603,8 @@
               </div>
 
               <!-- Slide 18 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCHzqN.png" alt="Course 18" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 18</h3>
@@ -2153,7 +2616,8 @@
               </div>
 
               <!-- Slide 19 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBg43B.png" alt="Course 19" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 19</h3>
@@ -2165,7 +2629,8 @@
               </div>
 
               <!-- Slide 20 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCHTgt.png" alt="Course 20" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 20</h3>
@@ -2177,7 +2642,8 @@
               </div>
 
               <!-- Slide 21 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+           <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCHR7n.png" alt="Course 21" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 21</h3>
@@ -2189,7 +2655,8 @@
               </div>
 
               <!-- Slide 22 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCH7mG.png" alt="Course 22" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 22</h3>
@@ -2201,7 +2668,8 @@
               </div>
 
               <!-- Slide 23 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCHcX4.png" alt="Course 23" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 23</h3>
@@ -2213,7 +2681,8 @@
               </div>
 
               <!-- Slide 24 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgPv1.png" alt="Course 24" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 24</h3>
@@ -2225,7 +2694,8 @@
               </div>
 
               <!-- Slide 25 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCHgYF.png" alt="Course 25" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 25</h3>
@@ -2237,7 +2707,8 @@
               </div>
 
               <!-- Slide 26 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCHQBp.png" alt="Course 26" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 26</h3>
@@ -2249,7 +2720,8 @@
               </div>
 
               <!-- Slide 27 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+            <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgiyF.png" alt="Course 27" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 27</h3>
@@ -2261,7 +2733,8 @@
               </div>
 
               <!-- Slide 28 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBgZZJ.png" alt="Course 28" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 28</h3>
@@ -2273,7 +2746,8 @@
               </div>
 
               <!-- Slide 29 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+           <!-- 
+   <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cBrHvt.png" alt="Course 29" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 29</h3>
@@ -2285,7 +2759,8 @@
               </div>
 
               <!-- Slide 30 -->
-              <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+             <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                   <img src="https://iili.io/3cCHZEN.png" alt="Course 30" class="w-full h-48 object-cover rounded-t-lg">
                   <div class="p-4">
                       <h3 class="font-bold text-lg text-gray-800">Course 30</h3>
@@ -2300,13 +2775,15 @@
     </section>
 
 <!-- Course Slider Section 2 -->
+<!-- 
 <section class="py-16 bg-blue-100">
 
         
         <div class="slider">
             <div class="slide-track">
                 <!-- Slide 1 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgILv.png" alt="Course 1" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 1</h3>
@@ -2319,7 +2796,8 @@
   
                 <!-- Slide 2 -->
                 <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
-                    <img src="https://iili.io/3cBgzhJ.png" alt="Course 2" class="w-full h-48 object-cover rounded-t-lg">
+             <!-- 
+       <img src="https://iili.io/3cBgzhJ.png" alt="Course 2" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 2</h3>
                         <div class="flex justify-between items-center mt-3">
@@ -2330,7 +2808,8 @@
                 </div>
   
                 <!-- Slide 3 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+                <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cByCva.png" alt="Course 3" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 3</h3>
@@ -2342,7 +2821,8 @@
                 </div>
   
                 <!-- Slide 4 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cByBYg.png" alt="Course 4" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 4</h3>
@@ -2354,7 +2834,8 @@
                 </div>
   
                 <!-- Slide 5 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+                <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cByzjR.png" alt="Course 5" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 5</h3>
@@ -2366,7 +2847,8 @@
                 </div>
   
                 <!-- Slide 6 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+               <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBynyJ.png" alt="Course 6" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 6</h3>
@@ -2378,7 +2860,8 @@
                 </div>
   
                 <!-- Slide 7 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgakX.png" alt="Course 7" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 7</h3>
@@ -2390,7 +2873,8 @@
                 </div>
   
                 <!-- Slide 8 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+               <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cByIQp.png" alt="Course 8" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 8</h3>
@@ -2402,7 +2886,8 @@
                 </div>
   
                 <!-- Slide 9 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+                <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cByuCN.png" alt="Course 9" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 9</h3>
@@ -2414,7 +2899,8 @@
                 </div>
   
                 <!-- Slide 10 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgcpn.png" alt="Course 10" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 10</h3>
@@ -2426,7 +2912,8 @@
                 </div>
   
                 <!-- Slide 11 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+                <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBg0Is.png" alt="Course 11" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 11</h3>
@@ -2438,7 +2925,8 @@
                 </div>
   
                 <!-- Slide 12 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+               <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgY7t.png" alt="Course 12" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 12</h3>
@@ -2450,7 +2938,8 @@
                 </div>
   
                 <!-- Slide 13 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+               <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgMB4.png" alt="Course 13" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 13</h3>
@@ -2462,7 +2951,8 @@
                 </div>
   
                 <!-- Slide 14 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+                <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgjY7.png" alt="Course 14" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 14</h3>
@@ -2474,7 +2964,8 @@
                 </div>
   
                 <!-- Slide 15 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+               <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgwv9.png" alt="Course 15" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 15</h3>
@@ -2486,7 +2977,8 @@
                 </div>
   
                 <!-- Slide 16 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+               <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgeTu.png" alt="Course 16" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 16</h3>
@@ -2498,7 +2990,8 @@
                 </div>
   
                 <!-- Slide 17 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+              <!-- 
+  <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgILv.png" alt="Course 17" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 17</h3>
@@ -2510,7 +3003,8 @@
                 </div>
   
                 <!-- Slide 18 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+                <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cBgzhJ.png" alt="Course 18" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 18</h3>
@@ -2522,7 +3016,8 @@
                 </div>
   
                 <!-- Slide 19 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+                <!-- 
+<div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cByCva.png" alt="Course 19" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 19</h3>
@@ -2534,7 +3029,8 @@
                 </div>
   
                 <!-- Slide 20 -->
-                <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
+               <!-- 
+ <div class="bg-white rounded-lg shadow-md mx-4 w-72 flex-shrink-0 hover-scale transition-all">
                     <img src="https://iili.io/3cByBYg.png" alt="Course 20" class="w-full h-48 object-cover rounded-t-lg">
                     <div class="p-4">
                         <h3 class="font-bold text-lg text-gray-800">Course 20</h3>
@@ -2934,3 +3430,4 @@
   </section>
 </body>
 </html>
+	
