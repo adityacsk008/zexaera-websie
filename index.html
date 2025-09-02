@@ -57,6 +57,7 @@
         .container { max-width: 1200px; width: 100%; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
         .gradient-text-blue { background: linear-gradient(90deg, var(--primary-blue-start), var(--primary-blue-end)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 5s ease infinite; }
         .gradient-text-brand { background: linear-gradient(90deg, var(--primary-blue-start), var(--secondary-purple)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .app-card { display: flex; flex-direction: column; text-decoration: none; }
         
         /* --- HEADER --- */
         header { padding: 15px 0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(15px); background-color: var(--bg-header); box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-bottom: 1px solid rgba(139, 92, 246, 0.2); animation: fadeInDown 0.8s ease-out forwards; }
@@ -176,7 +177,7 @@
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
     <a href="#top" id="backToTopBtn" aria-label="Back to Top"><i class="fas fa-arrow-up"></i></a>
 
     <div class="animation-container">
@@ -212,7 +213,7 @@
              <div class="app-grid">
 
     <!-- Khan Global Studies -->
-    <a href="kgsapk.html" target="_blank" class="app-card fade-in-element" data-category="new educational">
+    <a href="https://rzp.io/rzp/ZvT9KHP" target="_blank" class="app-card fade-in-element" data-category="new educational">
         <div class="card-top">
             <div class="app-logo">
                 <img src="https://iili.io/Kf7gF8g.jpg" alt="Logo">
@@ -233,7 +234,7 @@
     </a>
 
     <!-- Next Toppers -->
-    <a href="nexttoppers.html" target="_blank" class="app-card fade-in-element" data-category="popular educational" style="transition-delay: 0.1s;">
+    <a href="https://rzp.io/rzp/NYJhnYlp" target="_blank" class="app-card fade-in-element" data-category="popular educational" style="transition-delay: 0.1s;">
         <div class="card-top">
             <div class="app-logo">
                 <img src="https://iili.io/Kf7vzYJ.jpg" alt="Logo">
@@ -254,7 +255,7 @@
     </a>
 
     <!-- AS Multiverse -->
-    <a href="pw.html" target="_blank" class="app-card fade-in-element" data-category="popular" style="transition-delay: 0.2s;">
+    <a href="https://rzp.io/rzp/h9CcTZg4" target="_blank" class="app-card fade-in-element" data-category="popular" style="transition-delay: 0.2s;">
         <div class="card-top">
             <div class="app-logo">
                 <img src="https://iili.io/Kf7AqIS.png" alt="Logo">
@@ -275,7 +276,7 @@
     </a>
 
     <!-- Rojgar With Ankit -->
-    <a href="https://example.com/rwa-page" target="_blank" class="app-card fade-in-element" data-category="educational" style="transition-delay: 0.3s;">
+    <a href="https://rzp.io/rzp/EhLZwsm" target="_blank" class="app-card fade-in-element" data-category="educational" style="transition-delay: 0.3s;">
         <div class="card-top">
             <div class="app-logo">
                 <img src="https://iili.io/Kf7rLmb.png" alt="Logo">
@@ -434,14 +435,6 @@
                 });
             });
             searchInput.addEventListener('input', runFilterAndSearch);
-
-            document.querySelectorAll('.download-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const appName = button.closest('.app-card').querySelector('.app-name').textContent;
-                    alert(`Starting download for ${appName}...`);
-                });
-            });
         });
     </script>
 </body>
